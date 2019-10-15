@@ -31,6 +31,8 @@ public class GymBreak {
 
 	private JFrame frmGymBreak;
 	int mouseX,mouseY;
+	MostrarClientes MostrarClientesJPanel=new MostrarClientes();
+	AñadirCliente AñadirClienteJPanel=new AñadirCliente();
 
 	/**
 	 * Launch the application.
@@ -96,12 +98,12 @@ public class GymBreak {
 		JButton btnAñadir = new JButton("A\u00F1adir Cliente");
 		btnAñadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AñadirCliente datos=new AñadirCliente();
-				datos.setSize(933, 448);
-				datos.setLocation(320, 257);
+				eleminarall();
+				AñadirClienteJPanel.setSize(933, 448);
+				AñadirClienteJPanel.setLocation(320, 257);
 				
 				lblTitulo.setText("Añadir Cliente");
-				frmGymBreak.getContentPane().add(datos,BorderLayout.CENTER);
+				frmGymBreak.getContentPane().add(AñadirClienteJPanel,BorderLayout.CENTER);
 				frmGymBreak.revalidate();
 				frmGymBreak.repaint();
 				System.out.println("Done");
@@ -114,7 +116,7 @@ public class GymBreak {
 		btnAñadir.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		btnAñadir.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_add_user_male_32px.png")));
 		btnAñadir.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
-		btnAñadir.setBounds(0, 162, 320, 63);
+		btnAñadir.setBounds(0, 187, 320, 63);
 		SideMenu.add(btnAñadir);
 		
 		JButton btnModificar = new JButton("Modificar Cliente");
@@ -123,7 +125,7 @@ public class GymBreak {
 		btnModificar.setIconTextGap(70);
 		btnModificar.setHorizontalAlignment(SwingConstants.LEFT);
 		btnModificar.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
-		btnModificar.setBounds(0, 225, 320, 63);
+		btnModificar.setBounds(0, 247, 320, 63);
 		SideMenu.add(btnModificar);
 		
 		JButton btnPagos = new JButton("Pagos");
@@ -132,16 +134,29 @@ public class GymBreak {
 		btnPagos.setIconTextGap(70);
 		btnPagos.setHorizontalAlignment(SwingConstants.LEFT);
 		btnPagos.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
-		btnPagos.setBounds(0, 347, 320, 63);
+		btnPagos.setBounds(0, 365, 320, 63);
 		SideMenu.add(btnPagos);
 		
 		JButton btnClientes = new JButton(" Clientes");
+		btnClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				eleminarall();
+				MostrarClientesJPanel.setSize(933, 448);
+				MostrarClientesJPanel.setLocation(320, 257);
+				lblTitulo.setText("Clientes");
+				frmGymBreak.getContentPane().add(MostrarClientesJPanel,BorderLayout.CENTER);
+				frmGymBreak.revalidate();
+				frmGymBreak.repaint();
+				System.out.println("Done");
+				
+			}
+		});
 		btnClientes.setBackground(Color.WHITE);
 		btnClientes.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_list_26px.png")));
 		btnClientes.setIconTextGap(70);
 		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
 		btnClientes.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
-		btnClientes.setBounds(0, 409, 320, 63);
+		btnClientes.setBounds(0, 424, 320, 63);
 		SideMenu.add(btnClientes);
 		
 		JButton btnAbout = new JButton("About");
@@ -162,7 +177,7 @@ public class GymBreak {
 		btnRegistrar.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRegistrar.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
 		btnRegistrar.setBackground(Color.WHITE);
-		btnRegistrar.setBounds(0, 288, 320, 63);
+		btnRegistrar.setBounds(0, 304, 320, 63);
 		SideMenu.add(btnRegistrar);
 		
 		JLabel lblGymBreak = new JLabel("Gym");
@@ -181,17 +196,8 @@ public class GymBreak {
 		
 		JLabel lblLogoChicoBajo = new JLabel("");
 		lblLogoChicoBajo.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/Logo_chico.jpeg")));
-		lblLogoChicoBajo.setBounds(109, 530, 99, 192);
+		lblLogoChicoBajo.setBounds(109, 500, 99, 192);
 		SideMenu.add(lblLogoChicoBajo);
-		
-		JButton btnOpciones = new JButton(" Opciones");
-		btnOpciones.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_services_26px_1.png")));
-		btnOpciones.setIconTextGap(70);
-		btnOpciones.setHorizontalAlignment(SwingConstants.LEFT);
-		btnOpciones.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
-		btnOpciones.setBackground(Color.WHITE);
-		btnOpciones.setBounds(0, 471, 320, 63);
-		SideMenu.add(btnOpciones);
 		
 		JPanel BarPanel = new JPanel();
 		BarPanel.setBackground(new Color(178, 34, 34));
@@ -230,5 +236,11 @@ public class GymBreak {
 				frmGymBreak.setLocation(coorX-mouseX, coorY);
 			}
 		});
+	}
+
+	protected void eleminarall() {
+		frmGymBreak.remove(MostrarClientesJPanel);
+		frmGymBreak.remove(AñadirClienteJPanel);
+		
 	}
 }

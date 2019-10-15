@@ -1,6 +1,7 @@
 package Gym;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Clientes implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -11,6 +12,8 @@ public class Clientes implements Serializable{
 	private String numeroTel;
 	private String direccion;
 	private String detallesMedicos;
+	private ArrayList<Entradas> entradas=new ArrayList<Entradas>();
+	
 	public Clientes(String nombre, String apellido, char sexo, int edad, String numeroTel, String direccion,
 			String detallesMedicos) {
 		super();
@@ -98,6 +101,10 @@ public class Clientes implements Serializable{
 		} else if (!numeroTel.equals(other.numeroTel))
 			return false;
 		return true;
+	}
+	
+	public void altaEntrada(Entradas entradax) {
+		entradas.add(entradax);
 	}
 	
 	
