@@ -10,19 +10,29 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
 
 public class MostrarClientes extends JPanel {
 	public GymBreak principal;
 	private JTextField txtNumTel;
 	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 	private JTable tabledatos;
+	JLabel lblProbmedicos;
+	JTextArea ProbMedicos;
+	int posx;
+	Long NumTely;
 
 	public MostrarClientes(GymBreak padre) {
 		principal = padre;
@@ -41,12 +51,38 @@ public class MostrarClientes extends JPanel {
 		MainPanel.add(label);
 
 		txtNumTel = new JTextField();
+		txtNumTel.setBorder(border);
 		txtNumTel.setColumns(10);
 		txtNumTel.setBounds(264, 26, 340, 28);
 		MainPanel.add(txtNumTel);
 
 		JScrollPane scrollPaneClientes = new JScrollPane();
+		scrollPaneClientes.setBorder(border);
 		tabledatos = new JTable();
+		tabledatos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					if (e.getClickCount() == 1) {
+						final JTable jTable = (JTable) e.getSource();
+						final int row = jTable.getSelectedRow();
+						NumTely = (Long) jTable.getValueAt(row, 0);
+						posx = principal.lista.buscarPosCliente(NumTely);
+						System.out.println(NumTely);
+						String detallesMedicosx = "";
+						for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
+							detallesMedicosx = detallesMedicosx
+									+ principal.lista.clientes.get(posx).getDetallesMedicos().get(i) + "\n";
+						}
+
+						ProbMedicos.setText(detallesMedicosx);
+
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		scrollPaneClientes.setViewportView(tabledatos);
 
 		JButton btnBuscarCliente = new JButton("Buscar Cliente");
@@ -91,6 +127,7 @@ public class MostrarClientes extends JPanel {
 		MainPanel.add(btnBuscarCliente);
 
 		JScrollPane scrollpaneEntradas = new JScrollPane();
+		scrollpaneEntradas.setBorder(border);
 		scrollpaneEntradas.setBounds(710, 306, 211, 128);
 		scrollpaneEntradas.getViewport().setBackground(Color.WHITE);
 		MainPanel.add(scrollpaneEntradas);
@@ -135,15 +172,10 @@ public class MostrarClientes extends JPanel {
 		lblUltimoPago.setBorder(border);
 		MainPanel.add(lblUltimoPago);
 
-		JLabel lblProbmedicos = new JLabel("ProbMedicos");
+		lblProbmedicos = new JLabel("ProbMedicos");
 		lblProbmedicos.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		lblProbmedicos.setBounds(710, 97, 124, 28);
 		MainPanel.add(lblProbmedicos);
-
-		JScrollPane scrollpaneMedicos = new JScrollPane();
-		scrollpaneMedicos.setBounds(710, 136, 190, 128);
-		scrollpaneMedicos.getViewport().setBackground(Color.WHITE);
-		MainPanel.add(scrollpaneMedicos);
 
 		JButton btnActualizarTabla = new JButton("Actualizar Tabla");
 		btnActualizarTabla.addActionListener(new ActionListener() {
@@ -154,8 +186,37 @@ public class MostrarClientes extends JPanel {
 		btnActualizarTabla.setForeground(Color.BLACK);
 		btnActualizarTabla.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnActualizarTabla.setBackground(Color.WHITE);
-		btnActualizarTabla.setBounds(248, 73, 168, 33);
+		btnActualizarTabla.setBounds(236, 73, 168, 33);
 		MainPanel.add(btnActualizarTabla);
+		lblProbmedicos.setOpaque(true);
+
+		ProbMedicos = new JTextArea();
+		ProbMedicos.setBounds(710, 149, 211, 128);
+		ProbMedicos.setBorder(border);
+		MainPanel.add(ProbMedicos);
+
+		JButton btnEleminarCliente = new JButton("Eleminar CLiente");
+		btnEleminarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO eleminar cliente con NumTely
+				try {
+					principal.lista.eleminarClientes(NumTely);
+					JOptionPane.showMessageDialog(null, "Cliente borrado con Exito", "Exito",
+							JOptionPane.DEFAULT_OPTION);
+					ProbMedicos.setText(null);
+					actualizar();
+
+				} catch (NullPointerException ex) {
+					JOptionPane.showMessageDialog(null, "Error: Selecciona a una persona con el mouse", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnEleminarCliente.setForeground(Color.BLACK);
+		btnEleminarCliente.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnEleminarCliente.setBackground(Color.WHITE);
+		btnEleminarCliente.setBounds(438, 73, 180, 33);
+		MainPanel.add(btnEleminarCliente);
 
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(MostrarClientes.class.getResource("/Logos/RedCircle.jpg")));
@@ -177,7 +238,7 @@ public class MostrarClientes extends JPanel {
 			datos[renglon][1] = x.getNombre();
 			// Apellido(s)
 			datos[renglon][2] = x.getApellido();
-			// Sexo
+			// Sexo UwU
 			datos[renglon][3] = x.getSexo();
 			// Edad
 			datos[renglon][4] = x.getEdad();

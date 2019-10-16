@@ -11,11 +11,11 @@ public class Clientes implements Serializable {
 	private int edad;
 	private long numeroTel;
 	private String direccion;
-	private String detallesMedicos;
+	private ArrayList<String> detallesMedicos = new ArrayList<>();
 	private ArrayList<Entradas> entradas = new ArrayList<Entradas>();
 
 	public Clientes(String nombre, String apellido, char sexo, int edad, long numeroTel, String direccion,
-			String detallesMedicos) {
+			ArrayList<String> detallesMedicos) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -74,11 +74,11 @@ public class Clientes implements Serializable {
 		this.direccion = direccion;
 	}
 
-	public String getDetallesMedicos() {
+	public ArrayList<String> getDetallesMedicos() {
 		return detallesMedicos;
 	}
 
-	public void setDetallesMedicos(String detallesMedicos) {
+	public void setDetallesMedicos(ArrayList<String> detallesMedicos) {
 		this.detallesMedicos = detallesMedicos;
 	}
 

@@ -27,6 +27,7 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Cursor;
 import javax.swing.JLayeredPane;
+import java.awt.Toolkit;
 
 public class GymBreak {
 	ListaClientes lista= new ListaClientes();
@@ -69,6 +70,7 @@ public class GymBreak {
 		RegistrarEntrada RegistrarEntradaJPanel=new RegistrarEntrada(G);
 		
 		frmGymBreak = new JFrame();
+		frmGymBreak.setIconImage(Toolkit.getDefaultToolkit().getImage(GymBreak.class.getResource("/Logos/barbell_64px.png")));
 		frmGymBreak.setUndecorated(true);
 		frmGymBreak.getContentPane().setBackground(Color.WHITE);
 		frmGymBreak.getContentPane().addMouseListener(new MouseAdapter() {

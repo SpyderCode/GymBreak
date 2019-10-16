@@ -16,6 +16,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 
 public class AñadirCliente extends JPanel {
@@ -114,6 +116,7 @@ public class AñadirCliente extends JPanel {
 		MainPanel.add(txtDireccion);
 
 		txtProbMedicos = new JTextArea();
+		txtProbMedicos.setLineWrap(true);
 		txtProbMedicos.setForeground(Color.BLACK);
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		txtProbMedicos
@@ -144,15 +147,18 @@ public class AñadirCliente extends JPanel {
 
 					int edadx = Integer.parseInt(txtEdad.getText());
 					String direccionx = txtDireccion.getText();
-					String DetallesMedicosx = txtProbMedicos.getText();
+//					String DetallesMedicosx = txtProbMedicos.getText();
+					String s[] = txtProbMedicos.getText().split("\\r?\\n");
+					ArrayList<String> DetallesMedicosx = new ArrayList<>(Arrays.asList(s));
+
 					// Crea el cliente
 					Clientes clientex = new Clientes(nombrex, Apellidox, sexox, edadx, NumTelx, direccionx,
 							DetallesMedicosx);
-					
+
 					// Lo añade a la lista principal
 					System.out.println("Añadir cliente before");
 					padre.lista.altaClientes(clientex);
-					
+
 					// Bora las cajas de texto
 					txtApellido.setText(null);
 					txtDireccion.setText(null);
@@ -160,22 +166,22 @@ public class AñadirCliente extends JPanel {
 					txtNombre.setText(null);
 					txtNumTel.setText(null);
 					txtProbMedicos.setText(null);
-					
-					
-					//Debug
-					System.out.println("Cliente añadido a lista");
 
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+					// Debug
+					System.out.println("Cliente añadido a lista");
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null,
+							"Error: No se permite letras en el numero de telefono\nni en la edad.", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		btnAceptra.setBounds(824, 409, 97, 25);
 		MainPanel.add(btnAceptra);
-		
-				JLabel label = new JLabel("");
-				label.setIcon(new ImageIcon(AñadirCliente.class.getResource("/Logos/Logo_White.jpeg")));
-				label.setBounds(708, 0, 466, 448);
-				MainPanel.add(label);
+
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(AñadirCliente.class.getResource("/Logos/Logo_White.jpeg")));
+		label.setBounds(708, 0, 466, 448);
+		MainPanel.add(label);
 	}
 }
