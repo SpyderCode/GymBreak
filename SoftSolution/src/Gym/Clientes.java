@@ -2,6 +2,8 @@ package Gym;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Clientes implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -115,6 +117,13 @@ public class Clientes implements Serializable {
 
 	public void altaEntrada(Entradas entradax) {
 		entradas.add(entradax);
+	}
+	
+	public String toCsvRow() {
+	    return Stream.of(nombre, apellido, sexo, edad,numeroTel,direccion,detallesMedicos,entradas)
+	            .map(value -> ((String) value).replaceAll("\"", "\"\""))
+	            .map(value -> Stream.of("\"", ",").anyMatch(value::contains) ? "\"" + value + "\"" : value)
+	            .collect(Collectors.joining(","));
 	}
 
 }

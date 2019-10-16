@@ -24,5 +24,10 @@ public class ModificarCliente extends JPanel {
 				BackGround.setIcon(new ImageIcon(ModificarCliente.class.getResource("/Logos/131754-red-and-white-polygon-abstract-background.jpg")));
 				BackGround.setFont(new Font("Tahoma", Font.PLAIN, 99));
 				BackGround.setForeground(Color.RED);
+				
+				JLabel label = new JLabel("Numero Telefonico");
+				label.setFont(new Font("Tahoma", Font.PLAIN, 29));
+				label.setBounds(12, 13, 267, 41);
+				MainPanel.add(label);
 	}
 }

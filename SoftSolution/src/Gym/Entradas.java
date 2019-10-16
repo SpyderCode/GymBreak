@@ -1,9 +1,10 @@
 package Gym;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 
-public class Entradas {
+public class Entradas implements Serializable{
 	SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
 	//Atributos
 	private String Fecha;

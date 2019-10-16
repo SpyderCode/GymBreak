@@ -158,6 +158,7 @@ public class AñadirCliente extends JPanel {
 					// Lo añade a la lista principal
 					System.out.println("Añadir cliente before");
 					padre.lista.altaClientes(clientex);
+					padre.save();
 
 					// Bora las cajas de texto
 					txtApellido.setText(null);

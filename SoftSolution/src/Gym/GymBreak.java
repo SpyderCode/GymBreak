@@ -22,6 +22,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.MouseMotionAdapter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Component;
@@ -36,6 +40,7 @@ public class GymBreak {
 	MostrarClientes MostrarClientesJPanel;
 	AñadirCliente AñadirClienteJPanel;
 	ModificarCliente ModificarClienteJPanel;
+
 
 	/**
 	 * Launch the application.
@@ -69,6 +74,7 @@ public class GymBreak {
 		AñadirClienteJPanel=new AñadirCliente(G);
 		ModificarClienteJPanel=new ModificarCliente(G);
 		RegistrarEntrada RegistrarEntradaJPanel=new RegistrarEntrada(G);
+
 		
 		frmGymBreak = new JFrame();
 		frmGymBreak.setIconImage(Toolkit.getDefaultToolkit().getImage(GymBreak.class.getResource("/Logos/barbell_64px.png")));
@@ -260,5 +266,28 @@ public class GymBreak {
 		frmGymBreak.remove(AñadirClienteJPanel);
 		frmGymBreak.remove(ModificarClienteJPanel);
 		
+	}
+	public void save() {
+		try {
+			FileOutputStream fop = null;
+			File file= new File(System.getProperty("user.home") + "\\Documents"+"\\GymBreakDB.csv\\");
+			if (!file.exists()) {
+					file.createNewFile();
+			}
+			fop= new FileOutputStream(file);
+			ObjectOutputStream oos = new ObjectOutputStream(fop);
+			for (Clientes c : lista.clientes) {
+				oos.writeObject(c);
+			}
+			fop.close();
+			JOptionPane.showMessageDialog(null, "Archivo Guardado con Exito");
+			
+			
+			
+			
+			
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error al guardar archivo"+e);
+		}
 	}
 }
