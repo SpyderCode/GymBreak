@@ -147,7 +147,7 @@ public class AñadirCliente extends JPanel {
 
 					int edadx = Integer.parseInt(txtEdad.getText());
 					String direccionx = txtDireccion.getText();
-//					String DetallesMedicosx = txtProbMedicos.getText();
+					
 					String s[] = txtProbMedicos.getText().split("\\r?\\n");
 					ArrayList<String> DetallesMedicosx = new ArrayList<>(Arrays.asList(s));
 

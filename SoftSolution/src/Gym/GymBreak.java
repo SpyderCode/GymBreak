@@ -35,6 +35,7 @@ public class GymBreak {
 	int mouseX,mouseY;
 	MostrarClientes MostrarClientesJPanel;
 	AñadirCliente AñadirClienteJPanel;
+	ModificarCliente ModificarClienteJPanel;
 
 	/**
 	 * Launch the application.
@@ -66,19 +67,13 @@ public class GymBreak {
 		GymBreak G=this;
 		MostrarClientesJPanel=new MostrarClientes(G);
 		AñadirClienteJPanel=new AñadirCliente(G);
-		ModificarCliente ModificarClienteJPanel=new ModificarCliente(G);
+		ModificarClienteJPanel=new ModificarCliente(G);
 		RegistrarEntrada RegistrarEntradaJPanel=new RegistrarEntrada(G);
 		
 		frmGymBreak = new JFrame();
 		frmGymBreak.setIconImage(Toolkit.getDefaultToolkit().getImage(GymBreak.class.getResource("/Logos/barbell_64px.png")));
 		frmGymBreak.setUndecorated(true);
 		frmGymBreak.getContentPane().setBackground(Color.WHITE);
-		frmGymBreak.getContentPane().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				 
-			}
-		});
 		frmGymBreak.setTitle("Gym Break");
 		frmGymBreak.setBounds(100, 100, 1253, 705);
 		frmGymBreak.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,6 +124,19 @@ public class GymBreak {
 		SideMenu.add(btnAñadir);
 		
 		JButton btnModificar = new JButton("Modificar Cliente");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				eleminarall();
+				ModificarClienteJPanel.setSize(933, 448);
+				ModificarClienteJPanel.setLocation(320, 257);
+				lblTitulo.setText("Modificar Cliente");
+				
+				frmGymBreak.getContentPane().add(ModificarClienteJPanel,BorderLayout.CENTER);
+				frmGymBreak.revalidate();
+				frmGymBreak.repaint();
+				System.out.println("Done Modificar Cliente window");
+			}
+		});
 		btnModificar.setBackground(Color.WHITE);
 		btnModificar.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_edit_user_male_32px.png")));
 		btnModificar.setIconTextGap(70);
@@ -250,6 +258,7 @@ public class GymBreak {
 	protected void eleminarall() {
 		frmGymBreak.remove(MostrarClientesJPanel);
 		frmGymBreak.remove(AñadirClienteJPanel);
+		frmGymBreak.remove(ModificarClienteJPanel);
 		
 	}
 }
