@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 public class RegistrarEntrada extends JPanel{
-	public RegistrarEntrada() {
+	public RegistrarEntrada(GymBreak g) {
 		setBackground(Color.WHITE);
 		setLayout(null);
 

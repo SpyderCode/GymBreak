@@ -9,6 +9,7 @@ public class ListaClientes {
 	public void altaClientes(Clientes e) {
 		// Primero busca a ver si existe el cliente
 		if (buscarPosCliente(e.getNumeroTel()) == -1) {
+			System.out.println("Yeet");
 			clientes.add(e);
 			JOptionPane.showMessageDialog(null, "Cliente dado de alta", "Exito", JOptionPane.INFORMATION_MESSAGE);
 		} else { //Como cada numero telefonico es unico, 
@@ -18,7 +19,7 @@ public class ListaClientes {
 
 	}
 
-	public void eleminarClientes(String numTel) {
+	public void eleminarClientes(long numTel) {
 		int pos = buscarPosCliente(numTel);
 		if (pos >= 0)
 			clientes.remove(pos);
@@ -27,11 +28,11 @@ public class ListaClientes {
 					"Error", JOptionPane.ERROR_MESSAGE);
 	}
 
-	public int buscarPosCliente(String numTel) {
+	public int buscarPosCliente(long l) {
 		int pos = -1;
 		int i = 0;
 		for (Clientes e : clientes) {
-			if (e.equals(numTel)) {
+			if (e.getNumeroTel()==l) {
 				pos = i;
 				break;
 			}

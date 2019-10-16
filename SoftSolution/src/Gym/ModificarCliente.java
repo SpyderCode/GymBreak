@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 public class ModificarCliente extends JPanel {
-	public ModificarCliente() {
+	public ModificarCliente(GymBreak g) {
 		setBackground(Color.WHITE);
 		setLayout(null);
 

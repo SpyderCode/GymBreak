@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import java.awt.Window.Type;
 import java.awt.Dialog.ModalExclusionType;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.ImageIcon;
 
 import java.awt.BorderLayout;
@@ -28,11 +29,11 @@ import java.awt.Cursor;
 import javax.swing.JLayeredPane;
 
 public class GymBreak {
-
-	private JFrame frmGymBreak;
+	ListaClientes lista= new ListaClientes();
+	JFrame frmGymBreak;
 	int mouseX,mouseY;
-	MostrarClientes MostrarClientesJPanel=new MostrarClientes();
-	AñadirCliente AñadirClienteJPanel=new AñadirCliente();
+	MostrarClientes MostrarClientesJPanel;
+	AñadirCliente AñadirClienteJPanel;
 
 	/**
 	 * Launch the application.
@@ -61,6 +62,12 @@ public class GymBreak {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		GymBreak G=this;
+		MostrarClientesJPanel=new MostrarClientes(G);
+		AñadirClienteJPanel=new AñadirCliente(G);
+		ModificarCliente ModificarClienteJPanel=new ModificarCliente(G);
+		RegistrarEntrada RegistrarEntradaJPanel=new RegistrarEntrada(G);
+		
 		frmGymBreak = new JFrame();
 		frmGymBreak.setUndecorated(true);
 		frmGymBreak.getContentPane().setBackground(Color.WHITE);

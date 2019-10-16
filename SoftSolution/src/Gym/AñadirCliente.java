@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
@@ -11,9 +13,13 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AñadirCliente extends JPanel {
+	public GymBreak principal;
 	private JTextField txtNumTel;
 	private JTextField txtNombre;
 	private JTextField txtApellido;
@@ -21,7 +27,8 @@ public class AñadirCliente extends JPanel {
 	private JTextField txtDireccion;
 	private JTextArea txtProbMedicos;
 
-	public AñadirCliente() {
+	public AñadirCliente(GymBreak padre) {
+		principal = padre;
 		setBackground(Color.WHITE);
 		setLayout(null);
 
@@ -66,14 +73,6 @@ public class AñadirCliente extends JPanel {
 		lblProblemasMedicos.setBounds(12, 257, 250, 47);
 		MainPanel.add(lblProblemasMedicos);
 
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(715, 409, 97, 25);
-		MainPanel.add(btnCancelar);
-
-		JButton btnAceptra = new JButton("Aceptar");
-		btnAceptra.setBounds(824, 409, 97, 25);
-		MainPanel.add(btnAceptra);
-
 		txtNumTel = new JTextField();
 		txtNumTel.setBounds(264, 26, 405, 25);
 		MainPanel.add(txtNumTel);
@@ -94,16 +93,19 @@ public class AñadirCliente extends JPanel {
 		txtEdad.setBounds(81, 145, 114, 25);
 		MainPanel.add(txtEdad);
 
+		ButtonGroup sexo = new ButtonGroup();
 		JRadioButton rdbtnMasculino = new JRadioButton("Masculino");
 		rdbtnMasculino.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		rdbtnMasculino.setBackground(Color.WHITE);
 		rdbtnMasculino.setBounds(271, 148, 124, 25);
+		sexo.add(rdbtnMasculino);
 		MainPanel.add(rdbtnMasculino);
 
 		JRadioButton rdbtnFemenino = new JRadioButton("Femenino");
 		rdbtnFemenino.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		rdbtnFemenino.setBackground(Color.WHITE);
 		rdbtnFemenino.setBounds(399, 148, 124, 25);
+		sexo.add(rdbtnFemenino);
 		MainPanel.add(rdbtnFemenino);
 
 		txtDireccion = new JTextField();
@@ -116,15 +118,64 @@ public class AñadirCliente extends JPanel {
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		txtProbMedicos
 				.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-//		txtProbMedicos.setHorizontalAlignment(SwingConstants.LEFT);
-//		txtProbMedicos.setHorizontalAlignment(SwingConstants.LEFT);
 		txtProbMedicos.setBounds(280, 257, 389, 165);
 		MainPanel.add(txtProbMedicos);
 		txtProbMedicos.setColumns(100);
 
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(AñadirCliente.class.getResource("/Logos/Logo_White.jpeg")));
-		label.setBounds(708, 0, 466, 448);
-		MainPanel.add(label);
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(715, 409, 97, 25);
+		MainPanel.add(btnCancelar);
+
+		JButton btnAceptra = new JButton("Aceptar");
+		btnAceptra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					// Inicializa y obtiene los datos de cada caja
+					long NumTelx = Long.parseLong(txtNumTel.getText());
+					String nombrex = txtNombre.getText();
+					String Apellidox = txtApellido.getText();
+					char sexox = 'M';
+
+					// Sets si es masculino o femenino
+					if (rdbtnFemenino.isSelected())
+						sexox = 'F';
+					if (rdbtnMasculino.isSelected())
+						sexox = 'M';
+
+					int edadx = Integer.parseInt(txtEdad.getText());
+					String direccionx = txtDireccion.getText();
+					String DetallesMedicosx = txtProbMedicos.getText();
+					// Crea el cliente
+					Clientes clientex = new Clientes(nombrex, Apellidox, sexox, edadx, NumTelx, direccionx,
+							DetallesMedicosx);
+					
+					// Lo añade a la lista principal
+					System.out.println("Añadir cliente before");
+					padre.lista.altaClientes(clientex);
+					
+					// Bora las cajas de texto
+					txtApellido.setText(null);
+					txtDireccion.setText(null);
+					txtEdad.setText(null);
+					txtNombre.setText(null);
+					txtNumTel.setText(null);
+					txtProbMedicos.setText(null);
+					
+					
+					//Debug
+					System.out.println("Cliente añadido a lista");
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnAceptra.setBounds(824, 409, 97, 25);
+		MainPanel.add(btnAceptra);
+		
+				JLabel label = new JLabel("");
+				label.setIcon(new ImageIcon(AñadirCliente.class.getResource("/Logos/Logo_White.jpeg")));
+				label.setBounds(708, 0, 466, 448);
+				MainPanel.add(label);
 	}
 }
