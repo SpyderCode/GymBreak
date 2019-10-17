@@ -43,9 +43,11 @@ public class GymBreak {
 	ListaClientes lista = new ListaClientes();
 	JFrame frmGymBreak;
 	int mouseX, mouseY;
+	// Se ponen los JPanels aqui para que pueda ser accessibles en todo el programa
 	MostrarClientes MostrarClientesJPanel;
 	AñadirCliente AñadirClienteJPanel;
 	ModificarCliente ModificarClienteJPanel;
+	RegistrarEntrada RegistrarEntradaJPanel;
 
 	/**
 	 * Launch the application.
@@ -75,11 +77,15 @@ public class GymBreak {
 	 */
 	private void initialize() {
 		GymBreak G = this;
+		// Se busca y obtiene datos del archivo "GymBreak.csv"
+		load();
+		// Se inicializan los JPanels
 		MostrarClientesJPanel = new MostrarClientes(G);
 		AñadirClienteJPanel = new AñadirCliente(G);
 		ModificarClienteJPanel = new ModificarCliente(G);
-		RegistrarEntrada RegistrarEntradaJPanel = new RegistrarEntrada(G);
+		RegistrarEntradaJPanel = new RegistrarEntrada(G);
 
+		// Las propiedades del Main JFrame
 		frmGymBreak = new JFrame();
 		frmGymBreak.setIconImage(
 				Toolkit.getDefaultToolkit().getImage(GymBreak.class.getResource("/Logos/barbell_64px.png")));
@@ -90,7 +96,12 @@ public class GymBreak {
 		frmGymBreak.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGymBreak.getContentPane().setLayout(null);
 
+		// El titulo
 		JLabel lblTitulo = new JLabel("Elige un Boton\r\n");
+		lblTitulo.setFont(new Font("Swis721 Hv BT", Font.ITALIC, 97));
+		lblTitulo.setBounds(24, 13, 807, 143);
+
+		// El boton "X" para poder cerrar el programa sin usar el layout que nos da Java
 		JButton btnExit = new JButton("");
 		btnExit.setBounds(1199, 0, 54, 40);
 		frmGymBreak.getContentPane().add(btnExit);
@@ -102,28 +113,35 @@ public class GymBreak {
 		btnExit.setContentAreaFilled(false);
 		btnExit.setBorderPainted(false);
 		btnExit.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_delete_sign_32px.png")));
-		
-		load();
+
+		// El menu de alado
 		JPanel SideMenu = new JPanel();
 		SideMenu.setBackground(Color.BLACK);
 		SideMenu.setBounds(0, 0, 320, 705);
 		frmGymBreak.getContentPane().add(SideMenu);
 		SideMenu.setLayout(null);
 
+		// El boton para añadir clientes
 		JButton btnAñadir = new JButton("A\u00F1adir Cliente");
 		btnAñadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Primero borra cualquier JPanel que podria estar ahi
 				eleminarall();
+				// Luego coloca el nuevo JPanel con su tamaño
 				AñadirClienteJPanel.setSize(933, 448);
 				AñadirClienteJPanel.setLocation(320, 257);
 
+				// Cambia el titulo
 				lblTitulo.setText("Añadir Cliente");
+				// Luego lo enseña en el programa
 				frmGymBreak.getContentPane().add(AñadirClienteJPanel, BorderLayout.CENTER);
 				frmGymBreak.revalidate();
 				frmGymBreak.repaint();
-				System.out.println("Done");
+				// Debug
+				System.out.println("All fine here GymBreak-btnAñadir");
 			}
 		});
+		// Propiedades del boton
 		btnAñadir.setInheritsPopupMenu(true);
 		btnAñadir.setBackground(Color.WHITE);
 		btnAñadir.setHorizontalAlignment(SwingConstants.LEFT);
@@ -134,18 +152,24 @@ public class GymBreak {
 		btnAñadir.setBounds(0, 187, 320, 63);
 		SideMenu.add(btnAñadir);
 
+		// El boton para modificar el cliente
 		JButton btnModificar = new JButton("Modificar Cliente");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// elimina todos los JPanel
 				eleminarall();
+
+				// Luego coloca el nuevo JPanel con su tamaño
 				ModificarClienteJPanel.setSize(933, 448);
 				ModificarClienteJPanel.setLocation(320, 257);
 				lblTitulo.setText("Modificar Cliente");
 
+				// Lo enseña en el programa
 				frmGymBreak.getContentPane().add(ModificarClienteJPanel, BorderLayout.CENTER);
 				frmGymBreak.revalidate();
 				frmGymBreak.repaint();
-				System.out.println("Done Modificar Cliente window");
+				// Debug
+				System.out.println("All fine here GymBreak-btnModificar");
 			}
 		});
 		btnModificar.setBackground(Color.WHITE);
@@ -156,6 +180,7 @@ public class GymBreak {
 		btnModificar.setBounds(0, 247, 320, 63);
 		SideMenu.add(btnModificar);
 
+		// El boton para los pagos
 		JButton btnPagos = new JButton("Pagos");
 		btnPagos.setBackground(Color.WHITE);
 		btnPagos.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_money_32px.png")));
@@ -165,17 +190,24 @@ public class GymBreak {
 		btnPagos.setBounds(0, 365, 320, 63);
 		SideMenu.add(btnPagos);
 
+		// El boton que enseña los clientes
 		JButton btnClientes = new JButton(" Clientes");
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// Elimina los otros JPanel
 				eleminarall();
+
+				// Luego coloca el nuevo JPanel con su tamaño
 				MostrarClientesJPanel.setSize(933, 448);
 				MostrarClientesJPanel.setLocation(320, 257);
+				// Cambia el titulo
 				lblTitulo.setText("Clientes");
+				// Lo enseña en el programa
 				frmGymBreak.getContentPane().add(MostrarClientesJPanel, BorderLayout.CENTER);
 				frmGymBreak.revalidate();
 				frmGymBreak.repaint();
-				System.out.println("Done");
+				// Debug
+				System.out.println("All fine here GymBreak-btnClientes");
 
 			}
 		});
@@ -187,6 +219,7 @@ public class GymBreak {
 		btnClientes.setBounds(0, 424, 320, 63);
 		SideMenu.add(btnClientes);
 
+		// Un muy simple about
 		JButton btnAbout = new JButton("About");
 		btnAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -209,6 +242,7 @@ public class GymBreak {
 		btnRegistrar.setBounds(0, 304, 320, 63);
 		SideMenu.add(btnRegistrar);
 
+		// Para el titulo arriba a la izquierdda
 		JLabel lblGymBreak = new JLabel("Gym");
 		lblGymBreak.setBounds(0, 0, 266, 97);
 		SideMenu.add(lblGymBreak);
@@ -223,33 +257,38 @@ public class GymBreak {
 		lblBreak.setBounds(83, 76, 237, 96);
 		SideMenu.add(lblBreak);
 
+		// Coloca el logo chico hasta abajo
 		JLabel lblLogoChicoBajo = new JLabel("");
 		lblLogoChicoBajo.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/Logo_chico.jpeg")));
 		lblLogoChicoBajo.setBounds(109, 500, 99, 192);
 		SideMenu.add(lblLogoChicoBajo);
 
+		// La barra roja en medio
 		JPanel BarPanel = new JPanel();
 		BarPanel.setBackground(new Color(178, 34, 34));
 		BarPanel.setBounds(320, 64, 933, 194);
 		frmGymBreak.getContentPane().add(BarPanel);
 		BarPanel.setLayout(null);
-
-		lblTitulo.setFont(new Font("Swis721 Hv BT", Font.ITALIC, 97));
-		lblTitulo.setBounds(24, 13, 807, 143);
 		BarPanel.add(lblTitulo);
 
+		// La barra gris hasta arriba
 		JPanel TopBar = new JPanel();
 		TopBar.setBackground(new Color(60, 60, 60));
 		TopBar.setBounds(320, 0, 933, 65);
 		frmGymBreak.getContentPane().add(TopBar);
 		TopBar.setLayout(null);
 
+		/*
+		 * DragThingy es un JLabel que permite arrastrar la ventana, sin esto no se
+		 * podria mover la ventana
+		 */
 		JLabel DragThingy = new JLabel("");
 		DragThingy.setBounds(-320, 0, 1253, 65);
 		TopBar.add(DragThingy);
 		DragThingy.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				// Primero obtiene la informacion de donde le pretaste
 				mouseX = e.getX();
 				mouseY = e.getY();
 			}
@@ -257,51 +296,76 @@ public class GymBreak {
 		DragThingy.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent evt) {
+				// Luego obtiene a donde se mueve
 				int coorX = evt.getXOnScreen();
 				int coorY = evt.getYOnScreen();
 
-				frmGymBreak.setLocation(coorX - mouseX, coorY);
+				// Coloca la ventana en la nueva ubicacion
+				frmGymBreak.setLocation(coorX - mouseX, coorY - mouseY);
 			}
 		});
 	}
 
-	protected void eleminarall() {
+	protected void eleminarall() {// El metodo para eleminar todos los JPanels
 		frmGymBreak.remove(MostrarClientesJPanel);
 		frmGymBreak.remove(AñadirClienteJPanel);
 		frmGymBreak.remove(ModificarClienteJPanel);
 
 	}
 
-	public void save() {
+	public void save() {// Metodo para guardar el ArrayList a un documento .CSV
+
 		try {
 			BufferedWriter writer = new BufferedWriter(
+					// Se obtiene el lugar a donde se guardara
 					new FileWriter(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB.csv\\"));
-//			writer.write("Nombre,Apellido,sexo,edad,numeroTel,direccion,detallesMedicos,Entradas\n");
+			// La manera en la que se van a guardar:
+			// Nombre,Apellido,sexo,edad,numeroTel,direccion,detallesMedicos,Entradas
+
+			// Escribe los datos de cada cliente en la lista en el documento
 			for (Clientes c : lista.clientes) {
 				writer.write(c.toString());
 			}
-
+			// Cierra el Writer
 			writer.close();
 
-			JOptionPane.showMessageDialog(null, "Archivo Guardado con Exito");
+			// Si todo funciona
+			JOptionPane.showMessageDialog(null, "Archivo Guardado con Exito", "Exito", JOptionPane.DEFAULT_OPTION);
 
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Error al guardar archivo" + e);
+			// Si algo va mal
+			JOptionPane.showMessageDialog(null, "Error al guardar archivo" + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	public void load() {
+	public void load() {// Metodo para abrir el archivo .CSV
 		try {
 			Scanner scan = new Scanner(
+					// Obtiene el archivo de su ubicacion
 					new File(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB.csv\\"));
-//			Nombre,Apellido,sexo,edad,numeroTel,direccion,detallesMedicos,Entradas
-			while (scan.hasNextLine()) {
+			// Formato
+			// Nombre,Apellido,sexo,edad,numeroTel,direccion,detallesMedicos,Entradas
+
+			// Lee cada linea del archivo
+			while (scan.hasNextLine()) {// Mientras haya lineas, lee
+
+				// Primero se escanea la linea del archivo
 				String line = scan.nextLine();
-				String[] lineArray = line.split(",");
-				String s[] = lineArray[6].split("_");
-				String e[] = lineArray[7].split("_");
+
+				String[] lineArray = line.split(",");// Todo lo demas
+
+				/*
+				 * Como los datos de Detalles Medicos y Entradas estan en una sola celda en
+				 * eclipse Aqui se crea ArrayList cortando los datos con el _
+				 */
+				String s[] = lineArray[6].split("_");// Detalles Medicos
+				String e[] = lineArray[7].split("_");// Entradas
+
+				// Coloca los arreglos a su ArrayList
 				ArrayList<String> detallesMedicos = new ArrayList<>(Arrays.asList(s));
 				ArrayList<String> entradas = new ArrayList<>(Arrays.asList(e));
+
+				// Añade el cliente a la lista
 				lista.clientes.add(
 						new Clientes(lineArray[0], lineArray[1], lineArray[2].charAt(0), Integer.parseInt(lineArray[3]),
 								Long.parseLong(lineArray[4]), lineArray[5], detallesMedicos, entradas));
@@ -309,8 +373,11 @@ public class GymBreak {
 			}
 
 		} catch (FileNotFoundException e) {
+			//Si no se encuentra el archivo, enseña este mensaje
 			JOptionPane.showMessageDialog(null, "Error al abrir base de datos:\n" + "\nSe creara un"
 					+ "nuevo archivo 'GymBreakDB' en tu carpeta de Documentos");
+			//Crea el archivo sin datos
+			save();
 		}
 
 	}

@@ -27,12 +27,12 @@ import javax.swing.JTextArea;
 public class MostrarClientes extends JPanel {
 	public GymBreak principal;
 	private JTextField txtNumTel;
-	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 	private JTable tabledatos;
-	JLabel lblProbmedicos;
-	JTextArea ProbMedicos;
-	int posx;
-	Long NumTely;
+	private JLabel lblProbmedicos;
+	private JTextArea ProbMedicos;
+	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+	private int posx;
+	private Long NumTely;
 
 	public MostrarClientes(GymBreak padre) {
 		principal = padre;
@@ -223,7 +223,7 @@ public class MostrarClientes extends JPanel {
 		lblBackground.setIcon(new ImageIcon(MostrarClientes.class.getResource("/Logos/RedCircle.jpg")));
 		lblBackground.setBounds(-313, 0, 931, 933);
 		MainPanel.add(lblBackground);
-
+		actualizar();
 	}
 
 	private void actualizar() {
