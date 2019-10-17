@@ -42,32 +42,32 @@ public class AñadirCliente extends JPanel {
 
 		JLabel lblNumeroTel = new JLabel("Numero Telefonico");
 		lblNumeroTel.setFont(new Font("Tahoma", Font.PLAIN, 29));
-		lblNumeroTel.setBounds(12, 13, 267, 41);
+		lblNumeroTel.setBounds(12, 186, 267, 41);
 		MainPanel.add(lblNumeroTel);
 
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 29));
-		lblNombre.setBounds(12, 78, 100, 35);
+		lblNombre.setBounds(12, 16, 100, 35);
 		MainPanel.add(lblNombre);
 
 		JLabel lblApellidos = new JLabel("Apellido(s)");
 		lblApellidos.setFont(new Font("Tahoma", Font.PLAIN, 29));
-		lblApellidos.setBounds(329, 75, 184, 41);
+		lblApellidos.setBounds(329, 13, 184, 41);
 		MainPanel.add(lblApellidos);
 
 		JLabel lblNewLabel = new JLabel("Sexo");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 29));
-		lblNewLabel.setBounds(203, 136, 114, 41);
+		lblNewLabel.setBounds(317, 74, 114, 41);
 		MainPanel.add(lblNewLabel);
 
 		JLabel lblEdad = new JLabel("Edad");
 		lblEdad.setFont(new Font("Tahoma", Font.PLAIN, 29));
-		lblEdad.setBounds(12, 136, 68, 41);
+		lblEdad.setBounds(12, 74, 68, 41);
 		MainPanel.add(lblEdad);
 
 		JLabel lblDireccion = new JLabel("Direccion");
 		lblDireccion.setFont(new Font("Tahoma", Font.PLAIN, 29));
-		lblDireccion.setBounds(12, 190, 124, 41);
+		lblDireccion.setBounds(12, 128, 124, 41);
 		MainPanel.add(lblDireccion);
 
 		JLabel lblProblemasMedicos = new JLabel("Problemas Medicos");
@@ -76,43 +76,43 @@ public class AñadirCliente extends JPanel {
 		MainPanel.add(lblProblemasMedicos);
 
 		txtNumTel = new JTextField();
-		txtNumTel.setBounds(264, 26, 405, 25);
+		txtNumTel.setBounds(264, 201, 405, 25);
 		MainPanel.add(txtNumTel);
 		txtNumTel.setColumns(10);
 
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(124, 88, 193, 25);
+		txtNombre.setBounds(124, 26, 193, 25);
 		MainPanel.add(txtNombre);
 
 		txtApellido = new JTextField();
 		txtApellido.setColumns(10);
-		txtApellido.setBounds(476, 88, 193, 25);
+		txtApellido.setBounds(476, 26, 193, 25);
 		MainPanel.add(txtApellido);
 
 		txtEdad = new JTextField();
 		txtEdad.setColumns(10);
-		txtEdad.setBounds(81, 145, 114, 25);
+		txtEdad.setBounds(81, 83, 114, 25);
 		MainPanel.add(txtEdad);
 
 		ButtonGroup sexo = new ButtonGroup();
 		JRadioButton rdbtnMasculino = new JRadioButton("Masculino");
 		rdbtnMasculino.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		rdbtnMasculino.setBackground(Color.WHITE);
-		rdbtnMasculino.setBounds(271, 148, 124, 25);
+		rdbtnMasculino.setBounds(406, 86, 124, 25);
 		sexo.add(rdbtnMasculino);
 		MainPanel.add(rdbtnMasculino);
 
 		JRadioButton rdbtnFemenino = new JRadioButton("Femenino");
 		rdbtnFemenino.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		rdbtnFemenino.setBackground(Color.WHITE);
-		rdbtnFemenino.setBounds(399, 148, 124, 25);
+		rdbtnFemenino.setBounds(545, 86, 124, 25);
 		sexo.add(rdbtnFemenino);
 		MainPanel.add(rdbtnFemenino);
 
 		txtDireccion = new JTextField();
 		txtDireccion.setColumns(10);
-		txtDireccion.setBounds(141, 206, 528, 25);
+		txtDireccion.setBounds(141, 144, 528, 25);
 		MainPanel.add(txtDireccion);
 
 		txtProbMedicos = new JTextArea();
@@ -182,7 +182,7 @@ public class AñadirCliente extends JPanel {
 
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(AñadirCliente.class.getResource("/Logos/Logo_White.jpeg")));
-		label.setBounds(708, 0, 466, 448);
+		label.setBounds(703, 0, 466, 448);
 		MainPanel.add(label);
 	}
 }

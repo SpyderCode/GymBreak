@@ -40,6 +40,7 @@ import javax.swing.JLayeredPane;
 import java.awt.Toolkit;
 
 public class GymBreak {
+	//inicializa la lista de clientes
 	ListaClientes lista = new ListaClientes();
 	JFrame frmGymBreak;
 	int mouseX, mouseY;
