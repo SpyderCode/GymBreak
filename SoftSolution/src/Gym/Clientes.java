@@ -15,9 +15,10 @@ public class Clientes implements Serializable {
 	private String direccion;
 	private ArrayList<String> detallesMedicos = new ArrayList<>();
 	private ArrayList<Entradas> entradas = new ArrayList<Entradas>();
+	private String toStringMedicos="";
 
 	public Clientes(String nombre, String apellido, char sexo, int edad, long numeroTel, String direccion,
-			ArrayList<String> detallesMedicos) {
+			ArrayList<String> detallesMedicos,ArrayList<String> entradas) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -83,6 +84,12 @@ public class Clientes implements Serializable {
 	public void setDetallesMedicos(ArrayList<String> detallesMedicos) {
 		this.detallesMedicos = detallesMedicos;
 	}
+	public String toStringMedicos(ArrayList<String> detallesMedicosx) {
+		for (String string : detallesMedicosx) {
+			toStringMedicos+=string+"_";
+		}
+		return toStringMedicos;
+	}
 
 	@Override
 	public int hashCode() {
@@ -118,12 +125,15 @@ public class Clientes implements Serializable {
 	public void altaEntrada(Entradas entradax) {
 		entradas.add(entradax);
 	}
-	
-	public String toCsvRow() {
-	    return Stream.of(nombre, apellido, sexo, edad,numeroTel,direccion,detallesMedicos,entradas)
-	            .map(value -> ((String) value).replaceAll("\"", "\"\""))
-	            .map(value -> Stream.of("\"", ",").anyMatch(value::contains) ? "\"" + value + "\"" : value)
-	            .collect(Collectors.joining(","));
+
+	@Override
+	public String toString() {
+		System.out.println(toStringMedicos);
+		return nombre + "," + apellido + "," + sexo + "," + edad
+				+ "," + numeroTel + "," + direccion + "," + toStringMedicos
+				+ "," + entradas+"\n";
+		
 	}
+	
 
 }

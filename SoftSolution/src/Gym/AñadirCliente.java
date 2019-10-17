@@ -147,19 +147,22 @@ public class AñadirCliente extends JPanel {
 
 					int edadx = Integer.parseInt(txtEdad.getText());
 					String direccionx = txtDireccion.getText();
-					
+
 					String s[] = txtProbMedicos.getText().split("\\r?\\n");
 					ArrayList<String> DetallesMedicosx = new ArrayList<>(Arrays.asList(s));
 
 					// Crea el cliente
 					Clientes clientex = new Clientes(nombrex, Apellidox, sexox, edadx, NumTelx, direccionx,
-							DetallesMedicosx);
+							DetallesMedicosx, null);
+					clientex.toStringMedicos(DetallesMedicosx);
 
 					// Lo añade a la lista principal
 					System.out.println("Añadir cliente before");
 					padre.lista.altaClientes(clientex);
 					padre.save();
 
+					// Debug
+					System.out.println("Cliente añadido a lista");
 					// Bora las cajas de texto
 					txtApellido.setText(null);
 					txtDireccion.setText(null);
@@ -167,9 +170,6 @@ public class AñadirCliente extends JPanel {
 					txtNombre.setText(null);
 					txtNumTel.setText(null);
 					txtProbMedicos.setText(null);
-
-					// Debug
-					System.out.println("Cliente añadido a lista");
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null,
 							"Error: No se permite letras en el numero de telefono\nni en la edad.", "ERROR",

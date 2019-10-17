@@ -205,6 +205,7 @@ public class MostrarClientes extends JPanel {
 							JOptionPane.DEFAULT_OPTION);
 					ProbMedicos.setText(null);
 					actualizar();
+					principal.save();
 
 				} catch (NullPointerException ex) {
 					JOptionPane.showMessageDialog(null, "Error: Selecciona a una persona con el mouse", "ERROR",
