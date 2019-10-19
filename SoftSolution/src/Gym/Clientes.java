@@ -15,10 +15,41 @@ public class Clientes implements Serializable {
 	private String direccion;
 	private ArrayList<String> detallesMedicos = new ArrayList<>();
 	private ArrayList<Entradas> entradas = new ArrayList<Entradas>();
-	private String toStringMedicos="";
+	private PagoCliente pago;
+	private String toStringMedicos = "";
 
 	public Clientes(String nombre, String apellido, char sexo, int edad, long numeroTel, String direccion,
-			ArrayList<String> detallesMedicos,ArrayList<String> entradas) {
+			ArrayList<String> detallesMedicos, ArrayList<Entradas> entradas, PagoCliente pago) {
+		super();
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.sexo = sexo;
+		this.edad = edad;
+		this.numeroTel = numeroTel;
+		this.direccion = direccion;
+		this.detallesMedicos = detallesMedicos;
+		this.entradas = entradas;
+		this.pago = pago;
+	}
+
+	public ArrayList<Entradas> getEntradas() {
+		return entradas;
+	}
+
+	public void setEntradas(ArrayList<Entradas> entradas) {
+		this.entradas = entradas;
+	}
+
+	public PagoCliente getPago() {
+		return pago;
+	}
+
+	public void setPago(PagoCliente pago) {
+		this.pago = pago;
+	}
+
+	public Clientes(String nombre, String apellido, char sexo, int edad, long numeroTel, String direccion,
+			ArrayList<String> detallesMedicos, ArrayList<String> entradas) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -84,11 +115,28 @@ public class Clientes implements Serializable {
 	public void setDetallesMedicos(ArrayList<String> detallesMedicos) {
 		this.detallesMedicos = detallesMedicos;
 	}
+
 	public String toStringMedicos(ArrayList<String> detallesMedicosx) {
 		for (String string : detallesMedicosx) {
-			toStringMedicos+=string+"_";
+			toStringMedicos += string + "_";
 		}
 		return toStringMedicos;
+	}
+
+	public String toStringPagos(PagoCliente pagox) {
+		if (pagox == null) {
+			return "_";
+		} else {
+			return pagox.toString();
+		}
+	}
+
+	private String toStringEntradas(ArrayList<Entradas> entradasx) {
+		if (entradasx == null) {
+			return "_";
+		} else {
+			return entradas.toString();
+		}
 	}
 
 	@Override
@@ -129,11 +177,9 @@ public class Clientes implements Serializable {
 	@Override
 	public String toString() {
 		System.out.println(toStringMedicos);
-		return nombre + "," + apellido + "," + sexo + "," + edad
-				+ "," + numeroTel + "," + direccion + "," + toStringMedicos
-				+ "," + entradas+"\n";
-		
+		return nombre + "," + apellido + "," + sexo + "," + edad + "," + numeroTel + "," + direccion + ","
+				+ toStringMedicos + "," + toStringEntradas(entradas) + "," + toStringPagos(pago) + "\n";
+
 	}
-	
 
 }

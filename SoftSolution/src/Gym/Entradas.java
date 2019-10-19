@@ -4,15 +4,17 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 
-public class Entradas implements Serializable{
-	SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+public class Entradas{
 	//Atributos
 	private String Fecha;
-	LocalTime Hora = LocalTime.now();
+	LocalTime Hora;
 	public Entradas(String fecha, LocalTime hora) {
 		super();
 		Fecha = fecha;
 		Hora = hora;
+	}
+	public Entradas() {
+		
 	}
 	public String getFecha() {
 		return Fecha;
@@ -25,6 +27,10 @@ public class Entradas implements Serializable{
 	}
 	public void setHora(LocalTime hora) {
 		Hora = hora;
+	}
+	public String toString() {
+		return ""+Fecha+"_"+Hora+"";
+		
 	}
 	
 }

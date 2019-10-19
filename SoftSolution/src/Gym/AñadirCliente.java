@@ -153,7 +153,7 @@ public class AñadirCliente extends JPanel {
 
 					// Crea el cliente
 					Clientes clientex = new Clientes(nombrex, Apellidox, sexox, edadx, NumTelx, direccionx,
-							DetallesMedicosx, null);
+							DetallesMedicosx, null,null);
 					clientex.toStringMedicos(DetallesMedicosx);
 
 					// Lo añade a la lista principal

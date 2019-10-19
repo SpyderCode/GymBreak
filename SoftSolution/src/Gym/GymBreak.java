@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -40,7 +41,7 @@ import javax.swing.JLayeredPane;
 import java.awt.Toolkit;
 
 public class GymBreak {
-	//inicializa la lista de clientes
+	// inicializa la lista de clientes
 	ListaClientes lista = new ListaClientes();
 	JFrame frmGymBreak;
 	int mouseX, mouseY;
@@ -49,6 +50,7 @@ public class GymBreak {
 	AñadirCliente AñadirClienteJPanel;
 	ModificarCliente ModificarClienteJPanel;
 	RegistrarEntrada RegistrarEntradaJPanel;
+	Pagos PagosJPanel;
 
 	/**
 	 * Launch the application.
@@ -85,6 +87,7 @@ public class GymBreak {
 		AñadirClienteJPanel = new AñadirCliente(G);
 		ModificarClienteJPanel = new ModificarCliente(G);
 		RegistrarEntradaJPanel = new RegistrarEntrada(G);
+		PagosJPanel= new Pagos(G);
 
 		// Las propiedades del Main JFrame
 		frmGymBreak = new JFrame();
@@ -183,6 +186,24 @@ public class GymBreak {
 
 		// El boton para los pagos
 		JButton btnPagos = new JButton("Pagos");
+		btnPagos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// elimina todos los JPanel
+				eleminarall();
+				
+				// Luego coloca el nuevo JPanel con su tamaño
+				PagosJPanel.setSize(933, 448);
+				PagosJPanel.setLocation(320, 257);
+				// Cambia el titulo
+				lblTitulo.setText("Pagos");
+				// Lo enseña en el programa
+				frmGymBreak.getContentPane().add(PagosJPanel, BorderLayout.CENTER);
+				frmGymBreak.revalidate();
+				frmGymBreak.repaint();
+				// Debug
+				System.out.println("All fine here GymBreak-btnPagos");
+			}
+		});
 		btnPagos.setBackground(Color.WHITE);
 		btnPagos.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_money_32px.png")));
 		btnPagos.setIconTextGap(70);
@@ -306,11 +327,22 @@ public class GymBreak {
 			}
 		});
 	}
+	
+	/*  
+  __  __      _            _           
+ |  \/  |    | |          | |          
+ | \  / | ___| |_ ___   __| | ___  ___ 
+ | |\/| |/ _ \ __/ _ \ / _` |/ _ \/ __|
+ | |  | |  __/ || (_) | (_| | (_) \__ \
+ |_|  |_|\___|\__\___/ \__,_|\___/|___/
+                                       
+                                       */
 
 	protected void eleminarall() {// El metodo para eleminar todos los JPanels
 		frmGymBreak.remove(MostrarClientesJPanel);
 		frmGymBreak.remove(AñadirClienteJPanel);
 		frmGymBreak.remove(ModificarClienteJPanel);
+		frmGymBreak.remove(PagosJPanel);
 
 	}
 
@@ -321,8 +353,7 @@ public class GymBreak {
 					// Se obtiene el lugar a donde se guardara
 					new FileWriter(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB.csv\\"));
 			// La manera en la que se van a guardar:
-			// Nombre,Apellido,sexo,edad,numeroTel,direccion,detallesMedicos,Entradas
-
+			// Nombre,Apellido,sexo,edad,numeroTel,direccion,detallesMedicos,Entradas,Pagos
 			// Escribe los datos de cada cliente en la lista en el documento
 			for (Clientes c : lista.clientes) {
 				writer.write(c.toString());
@@ -349,35 +380,48 @@ public class GymBreak {
 
 			// Lee cada linea del archivo
 			while (scan.hasNextLine()) {// Mientras haya lineas, lee
-
+				PagoCliente pago = null;
 				// Primero se escanea la linea del archivo
 				String line = scan.nextLine();
 
 				String[] lineArray = line.split(",");// Todo lo demas
 
 				/*
-				 * Como los datos de Detalles Medicos y Entradas estan en una sola celda en
-				 * eclipse Aqui se crea ArrayList cortando los datos con el _
+				 * Como los datos de Detalles Medicos,pagos y Entradas estan en una sola celda
+				 * en eclipse Aqui se crea ArrayList cortando los datos con el _
 				 */
-				String s[] = lineArray[6].split("_");// Detalles Medicos
-				String e[] = lineArray[7].split("_");// Entradas
+				String sMedico[] = lineArray[6].split("_");// Detalles Medicos
+				String eEntradas[] = lineArray[7].split("_");// Entradas
+				String[] dPago = new String[2]; // Pago
 
+				// Checa a ver si hay datos o no en la celda de pagos
+				if (lineArray[8].equals("_")) {// Si no, no hace nada y pagos queda como null
+				} else {
+					dPago = lineArray[8].split("_");
+					// Para colocar el pago en su lugar de una manera mas facil
+					pago = new PagoCliente(LocalDate.parse(dPago[0]), Integer.parseInt(dPago[1]));
+				}
 				// Coloca los arreglos a su ArrayList
-				ArrayList<String> detallesMedicos = new ArrayList<>(Arrays.asList(s));
-				ArrayList<String> entradas = new ArrayList<>(Arrays.asList(e));
+				ArrayList<String> detallesMedicos = new ArrayList<>(Arrays.asList(sMedico));
+				ArrayList<String> entradas = new ArrayList<>(Arrays.asList(eEntradas));
+
+				// Crea el cliente
+				Clientes clientex = new Clientes(lineArray[0], lineArray[1], lineArray[2].charAt(0),
+						Integer.parseInt(lineArray[3]), Long.parseLong(lineArray[4]), lineArray[5], detallesMedicos,
+						entradas);
+				//Le añade el pago
+				clientex.setPago(pago);
 
 				// Añade el cliente a la lista
-				lista.clientes.add(
-						new Clientes(lineArray[0], lineArray[1], lineArray[2].charAt(0), Integer.parseInt(lineArray[3]),
-								Long.parseLong(lineArray[4]), lineArray[5], detallesMedicos, entradas));
+				lista.clientes.add(clientex);
 
 			}
 
 		} catch (FileNotFoundException e) {
-			//Si no se encuentra el archivo, enseña este mensaje
+			// Si no se encuentra el archivo, enseña este mensaje
 			JOptionPane.showMessageDialog(null, "Error al abrir base de datos:\n" + "\nSe creara un"
 					+ "nuevo archivo 'GymBreakDB' en tu carpeta de Documentos");
-			//Crea el archivo sin datos
+			// Crea el archivo sin datos
 			save();
 		}
 
