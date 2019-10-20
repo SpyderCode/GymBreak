@@ -51,6 +51,7 @@ public class GymBreak {
 	ModificarCliente ModificarClienteJPanel;
 	RegistrarEntrada RegistrarEntradaJPanel;
 	Pagos PagosJPanel;
+	JLabel lblTitulo;
 
 	/**
 	 * Launch the application.
@@ -87,7 +88,7 @@ public class GymBreak {
 		AñadirClienteJPanel = new AñadirCliente(G);
 		ModificarClienteJPanel = new ModificarCliente(G);
 		RegistrarEntradaJPanel = new RegistrarEntrada(G);
-		PagosJPanel= new Pagos(G);
+		PagosJPanel = new Pagos(G);
 
 		// Las propiedades del Main JFrame
 		frmGymBreak = new JFrame();
@@ -101,7 +102,7 @@ public class GymBreak {
 		frmGymBreak.getContentPane().setLayout(null);
 
 		// El titulo
-		JLabel lblTitulo = new JLabel("Elige un Boton\r\n");
+		lblTitulo = new JLabel("Elige un Boton\r\n");
 		lblTitulo.setFont(new Font("Swis721 Hv BT", Font.ITALIC, 97));
 		lblTitulo.setBounds(24, 13, 807, 143);
 
@@ -129,20 +130,9 @@ public class GymBreak {
 		JButton btnAñadir = new JButton("A\u00F1adir Cliente");
 		btnAñadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Primero borra cualquier JPanel que podria estar ahi
-				eleminarall();
-				// Luego coloca el nuevo JPanel con su tamaño
-				AñadirClienteJPanel.setSize(933, 448);
-				AñadirClienteJPanel.setLocation(320, 257);
 
-				// Cambia el titulo
-				lblTitulo.setText("Añadir Cliente");
-				// Luego lo enseña en el programa
-				frmGymBreak.getContentPane().add(AñadirClienteJPanel, BorderLayout.CENTER);
-				frmGymBreak.revalidate();
-				frmGymBreak.repaint();
-				// Debug
-				System.out.println("All fine here GymBreak-btnAñadir");
+				aplicarVentana(AñadirClienteJPanel, "Añadir Cliente");
+
 			}
 		});
 		// Propiedades del boton
@@ -160,20 +150,9 @@ public class GymBreak {
 		JButton btnModificar = new JButton("Modificar Cliente");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// elimina todos los JPanel
-				eleminarall();
 
-				// Luego coloca el nuevo JPanel con su tamaño
-				ModificarClienteJPanel.setSize(933, 448);
-				ModificarClienteJPanel.setLocation(320, 257);
-				lblTitulo.setText("Modificar Cliente");
-
-				// Lo enseña en el programa
-				frmGymBreak.getContentPane().add(ModificarClienteJPanel, BorderLayout.CENTER);
-				frmGymBreak.revalidate();
-				frmGymBreak.repaint();
-				// Debug
-				System.out.println("All fine here GymBreak-btnModificar");
+				aplicarVentana(ModificarClienteJPanel, "Modificar");
+				
 			}
 		});
 		btnModificar.setBackground(Color.WHITE);
@@ -188,20 +167,9 @@ public class GymBreak {
 		JButton btnPagos = new JButton("Pagos");
 		btnPagos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// elimina todos los JPanel
-				eleminarall();
+
+				aplicarVentana(PagosJPanel, "Pagos");
 				
-				// Luego coloca el nuevo JPanel con su tamaño
-				PagosJPanel.setSize(933, 448);
-				PagosJPanel.setLocation(320, 257);
-				// Cambia el titulo
-				lblTitulo.setText("Pagos");
-				// Lo enseña en el programa
-				frmGymBreak.getContentPane().add(PagosJPanel, BorderLayout.CENTER);
-				frmGymBreak.revalidate();
-				frmGymBreak.repaint();
-				// Debug
-				System.out.println("All fine here GymBreak-btnPagos");
 			}
 		});
 		btnPagos.setBackground(Color.WHITE);
@@ -216,20 +184,8 @@ public class GymBreak {
 		JButton btnClientes = new JButton(" Clientes");
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// Elimina los otros JPanel
-				eleminarall();
 
-				// Luego coloca el nuevo JPanel con su tamaño
-				MostrarClientesJPanel.setSize(933, 448);
-				MostrarClientesJPanel.setLocation(320, 257);
-				// Cambia el titulo
-				lblTitulo.setText("Clientes");
-				// Lo enseña en el programa
-				frmGymBreak.getContentPane().add(MostrarClientesJPanel, BorderLayout.CENTER);
-				frmGymBreak.revalidate();
-				frmGymBreak.repaint();
-				// Debug
-				System.out.println("All fine here GymBreak-btnClientes");
+				aplicarVentana(MostrarClientesJPanel, "Clientes");
 
 			}
 		});
@@ -245,8 +201,10 @@ public class GymBreak {
 		JButton btnAbout = new JButton("About");
 		btnAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				JOptionPane.showMessageDialog(null, "Creado por SoftSolutions", "About",
 						JOptionPane.INFORMATION_MESSAGE);
+				
 			}
 		});
 		btnAbout.setForeground(Color.WHITE);
@@ -304,6 +262,7 @@ public class GymBreak {
 		 * DragThingy es un JLabel que permite arrastrar la ventana, sin esto no se
 		 * podria mover la ventana
 		 */
+		
 		JLabel DragThingy = new JLabel("");
 		DragThingy.setBounds(-320, 0, 1253, 65);
 		TopBar.add(DragThingy);
@@ -327,16 +286,29 @@ public class GymBreak {
 			}
 		});
 	}
-	
-	/*  
-  __  __      _            _           
- |  \/  |    | |          | |          
- | \  / | ___| |_ ___   __| | ___  ___ 
- | |\/| |/ _ \ __/ _ \ / _` |/ _ \/ __|
- | |  | |  __/ || (_) | (_| | (_) \__ \
- |_|  |_|\___|\__\___/ \__,_|\___/|___/
-                                       
-                                       */
+
+	/*
+	 * Metodos
+	 * 
+	 * 
+	 */
+	protected void aplicarVentana(JPanel VentanaJPanel, String titulo) {// Metodo para aplicar ventanas al proyecto
+		// Elimina los otros JPanel
+		eleminarall();
+
+		// Luego coloca el nuevo JPanel con su tamaño
+		VentanaJPanel.setSize(933, 448);
+		VentanaJPanel.setLocation(320, 257);
+		// Cambia el titulo
+		lblTitulo.setText(titulo);
+		// Lo enseña en el programa
+		frmGymBreak.getContentPane().add(VentanaJPanel, BorderLayout.CENTER);
+		frmGymBreak.revalidate();
+		frmGymBreak.repaint();
+		// Debug
+		System.out.println("Exito Aplicar Ventana");
+
+	}
 
 	protected void eleminarall() {// El metodo para eleminar todos los JPanels
 		frmGymBreak.remove(MostrarClientesJPanel);
@@ -409,7 +381,7 @@ public class GymBreak {
 				Clientes clientex = new Clientes(lineArray[0], lineArray[1], lineArray[2].charAt(0),
 						Integer.parseInt(lineArray[3]), Long.parseLong(lineArray[4]), lineArray[5], detallesMedicos,
 						entradas);
-				//Le añade el pago
+				// Le añade el pago
 				clientex.setPago(pago);
 
 				// Añade el cliente a la lista
@@ -418,9 +390,11 @@ public class GymBreak {
 			}
 
 		} catch (FileNotFoundException e) {
+			
 			// Si no se encuentra el archivo, enseña este mensaje
 			JOptionPane.showMessageDialog(null, "Error al abrir base de datos:\n" + "\nSe creara un"
 					+ "nuevo archivo 'GymBreakDB' en tu carpeta de Documentos");
+			
 			// Crea el archivo sin datos
 			save();
 		}

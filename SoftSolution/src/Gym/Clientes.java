@@ -115,7 +115,8 @@ public class Clientes implements Serializable {
 	public void setDetallesMedicos(ArrayList<String> detallesMedicos) {
 		this.detallesMedicos = detallesMedicos;
 	}
-
+	
+	//toStrings
 	public String toStringMedicos(ArrayList<String> detallesMedicosx) {
 		for (String string : detallesMedicosx) {
 			toStringMedicos += string + "_";

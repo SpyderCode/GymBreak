@@ -62,12 +62,16 @@ public class MostrarClientes extends JPanel {
 		tabledatos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+
 				try {
+
 					if (e.getClickCount() == 1) {
 						final JTable jTable = (JTable) e.getSource();
 						final int row = jTable.getSelectedRow();
+						
 						NumTely = (Long) jTable.getValueAt(row, 0);
 						posx = principal.lista.buscarPosCliente(NumTely);
+						
 						System.out.println(NumTely);
 						String detallesMedicosx = "";
 						for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
@@ -78,9 +82,11 @@ public class MostrarClientes extends JPanel {
 						ProbMedicos.setText(detallesMedicosx);
 
 					}
+
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
+
 			}
 		});
 		scrollPaneClientes.setViewportView(tabledatos);
@@ -227,6 +233,7 @@ public class MostrarClientes extends JPanel {
 	}
 
 	private void actualizar() {
+		
 		String[] encabezado = { "NumTel", "Nombre", "Apellido", "Sexo", "Edad", "Dir" };
 		Object datos[][] = new Object[principal.lista.clientes.size()][];
 		int renglon = 0;

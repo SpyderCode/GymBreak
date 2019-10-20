@@ -126,6 +126,13 @@ public class AñadirCliente extends JPanel {
 		txtProbMedicos.setColumns(100);
 
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Borra las cajas
+				borrarCajas();
+			}
+		});
 		btnCancelar.setBounds(715, 409, 97, 25);
 		MainPanel.add(btnCancelar);
 
@@ -164,12 +171,8 @@ public class AñadirCliente extends JPanel {
 					// Debug
 					System.out.println("Cliente añadido a lista");
 					// Bora las cajas de texto
-					txtApellido.setText(null);
-					txtDireccion.setText(null);
-					txtEdad.setText(null);
-					txtNombre.setText(null);
-					txtNumTel.setText(null);
-					txtProbMedicos.setText(null);
+					borrarCajas();
+			
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null,
 							"Error: No se permite letras en el numero de telefono\nni en la edad.", "ERROR",
@@ -184,5 +187,15 @@ public class AñadirCliente extends JPanel {
 		label.setIcon(new ImageIcon(AñadirCliente.class.getResource("/Logos/Logo_White.jpeg")));
 		label.setBounds(703, 0, 466, 448);
 		MainPanel.add(label);
+	}
+
+	protected void borrarCajas() {
+		txtApellido.setText(null);
+		txtDireccion.setText(null);
+		txtEdad.setText(null);
+		txtNombre.setText(null);
+		txtNumTel.setText(null);
+		txtProbMedicos.setText(null);
+		
 	}
 }
