@@ -52,6 +52,9 @@ public class GymBreak {
 	RegistrarEntrada RegistrarEntradaJPanel;
 	Pagos PagosJPanel;
 	JLabel lblTitulo;
+	
+	int PanelWidth=1453;
+	int PanelHeight=805;
 
 	/**
 	 * Launch the application.
@@ -92,12 +95,14 @@ public class GymBreak {
 
 		// Las propiedades del Main JFrame
 		frmGymBreak = new JFrame();
+		frmGymBreak.setResizable(true);
+		frmGymBreak.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		frmGymBreak.setIconImage(
 				Toolkit.getDefaultToolkit().getImage(GymBreak.class.getResource("/Logos/barbell_64px.png")));
 		frmGymBreak.setUndecorated(true);
 		frmGymBreak.getContentPane().setBackground(Color.WHITE);
 		frmGymBreak.setTitle("Gym Break");
-		frmGymBreak.setBounds(100, 100, 1253, 705);
+		frmGymBreak.setBounds(100, 100, PanelWidth, PanelHeight);
 		frmGymBreak.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGymBreak.getContentPane().setLayout(null);
 
@@ -108,7 +113,7 @@ public class GymBreak {
 
 		// El boton "X" para poder cerrar el programa sin usar el layout que nos da Java
 		JButton btnExit = new JButton("");
-		btnExit.setBounds(1199, 0, 54, 40);
+		btnExit.setBounds(PanelWidth-50, 0, 54, 40);
 		frmGymBreak.getContentPane().add(btnExit);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -122,7 +127,7 @@ public class GymBreak {
 		// El menu de alado
 		JPanel SideMenu = new JPanel();
 		SideMenu.setBackground(Color.BLACK);
-		SideMenu.setBounds(0, 0, 320, 705);
+		SideMenu.setBounds(0, 0, 320, PanelHeight);
 		frmGymBreak.getContentPane().add(SideMenu);
 		SideMenu.setLayout(null);
 
@@ -152,7 +157,7 @@ public class GymBreak {
 			public void actionPerformed(ActionEvent arg0) {
 
 				aplicarVentana(ModificarClienteJPanel, "Modificar");
-				
+
 			}
 		});
 		btnModificar.setBackground(Color.WHITE);
@@ -169,7 +174,7 @@ public class GymBreak {
 			public void actionPerformed(ActionEvent arg0) {
 
 				aplicarVentana(PagosJPanel, "Pagos");
-				
+
 			}
 		});
 		btnPagos.setBackground(Color.WHITE);
@@ -201,16 +206,16 @@ public class GymBreak {
 		JButton btnAbout = new JButton("About");
 		btnAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				JOptionPane.showMessageDialog(null, "Creado por SoftSolutions", "About",
 						JOptionPane.INFORMATION_MESSAGE);
-				
+
 			}
 		});
 		btnAbout.setForeground(Color.WHITE);
 		btnAbout.setBackground(Color.WHITE);
 		btnAbout.setContentAreaFilled(false);
-		btnAbout.setBounds(0, 680, 97, 25);
+		btnAbout.setBounds(0, PanelHeight-26, 97, 25);
 		SideMenu.add(btnAbout);
 
 		JButton btnRegistrar = new JButton(" Registrar Entrada");
@@ -240,13 +245,13 @@ public class GymBreak {
 		// Coloca el logo chico hasta abajo
 		JLabel lblLogoChicoBajo = new JLabel("");
 		lblLogoChicoBajo.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/Logo_chico.jpeg")));
-		lblLogoChicoBajo.setBounds(109, 500, 99, 192);
+		lblLogoChicoBajo.setBounds(109, PanelHeight-200, 99, 192);
 		SideMenu.add(lblLogoChicoBajo);
 
 		// La barra roja en medio
 		JPanel BarPanel = new JPanel();
 		BarPanel.setBackground(new Color(178, 34, 34));
-		BarPanel.setBounds(320, 64, 933, 194);
+		BarPanel.setBounds(320, 64, PanelWidth, 194);
 		frmGymBreak.getContentPane().add(BarPanel);
 		BarPanel.setLayout(null);
 		BarPanel.add(lblTitulo);
@@ -254,7 +259,7 @@ public class GymBreak {
 		// La barra gris hasta arriba
 		JPanel TopBar = new JPanel();
 		TopBar.setBackground(new Color(60, 60, 60));
-		TopBar.setBounds(320, 0, 933, 65);
+		TopBar.setBounds(320, 0, PanelWidth, 65);
 		frmGymBreak.getContentPane().add(TopBar);
 		TopBar.setLayout(null);
 
@@ -262,9 +267,9 @@ public class GymBreak {
 		 * DragThingy es un JLabel que permite arrastrar la ventana, sin esto no se
 		 * podria mover la ventana
 		 */
-		
+
 		JLabel DragThingy = new JLabel("");
-		DragThingy.setBounds(-320, 0, 1253, 65);
+		DragThingy.setBounds(-320, 0, PanelWidth, 65);
 		TopBar.add(DragThingy);
 		DragThingy.addMouseListener(new MouseAdapter() {
 			@Override
@@ -295,9 +300,14 @@ public class GymBreak {
 	protected void aplicarVentana(JPanel VentanaJPanel, String titulo) {// Metodo para aplicar ventanas al proyecto
 		// Elimina los otros JPanel
 		eleminarall();
+		
+//		int PanelWidth=1453;
+//		int PanelHeight=805;
+//		lblTest.setBounds(320, 257, 1137, 548);
+		
 
 		// Luego coloca el nuevo JPanel con su tamaño
-		VentanaJPanel.setSize(933, 448);
+		VentanaJPanel.setSize(1137, 548);
 		VentanaJPanel.setLocation(320, 257);
 		// Cambia el titulo
 		lblTitulo.setText(titulo);
@@ -315,6 +325,7 @@ public class GymBreak {
 		frmGymBreak.remove(AñadirClienteJPanel);
 		frmGymBreak.remove(ModificarClienteJPanel);
 		frmGymBreak.remove(PagosJPanel);
+		frmGymBreak.remove(RegistrarEntradaJPanel);
 
 	}
 
@@ -390,11 +401,11 @@ public class GymBreak {
 			}
 
 		} catch (FileNotFoundException e) {
-			
+
 			// Si no se encuentra el archivo, enseña este mensaje
 			JOptionPane.showMessageDialog(null, "Error al abrir base de datos:\n" + "\nSe creara un"
 					+ "nuevo archivo 'GymBreakDB' en tu carpeta de Documentos");
-			
+
 			// Crea el archivo sin datos
 			save();
 		}

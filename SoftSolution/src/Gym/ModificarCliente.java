@@ -14,7 +14,7 @@ public class ModificarCliente extends JPanel {
 		
 				JPanel MainPanel = new JPanel();
 				MainPanel.setBackground(Color.WHITE);
-				MainPanel.setBounds(0, 0, 933, 447);
+				MainPanel.setBounds(0, 0, 1137, 548);
 				add(MainPanel);
 				MainPanel.setLayout(null);
 				
