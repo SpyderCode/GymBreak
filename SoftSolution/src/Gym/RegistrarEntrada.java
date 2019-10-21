@@ -1,4 +1,7 @@
 package Gym;
+//Uncle sam im trying to sneak myself into japan but
+//im dummy thicc and the clap of my ass cheeks is
+//alerting the nations
 
 import java.awt.Color;
 
@@ -10,7 +13,8 @@ public class RegistrarEntrada extends JPanel{
 		setLayout(null);
 
 		JPanel MainPanel = new JPanel();
-		MainPanel.setBounds(0, 0, 933, 447);
+		MainPanel.setBackground(Color.WHITE);
+		MainPanel.setBounds(0, 0, 1137, 548);
 		add(MainPanel);
 		MainPanel.setLayout(null);
 	}

@@ -151,7 +151,7 @@ public class AñadirCliente extends JPanel {
 					long NumTelx = Long.parseLong(txtNumTel.getText());
 					String nombrex = txtNombre.getText();
 					String Apellidox = txtApellido.getText();
-					char sexox = 'M';
+					char sexox = 'M';//Male by default
 
 					// Sets si es masculino o femenino
 					if (rdbtnFemenino.isSelected())

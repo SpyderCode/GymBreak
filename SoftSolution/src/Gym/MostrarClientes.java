@@ -202,7 +202,7 @@ public class MostrarClientes extends JPanel {
 
 		ProbMedicos = new JTextArea();
 		ProbMedicos.setFont(new Font("Tahoma", Font.PLAIN, textSize));
-		ProbMedicos.setBounds(833, 165, 278, 165);
+		ProbMedicos.setBounds(833, 159, 278, 171);
 		ProbMedicos.setBorder(border);
 		MainPanel.add(ProbMedicos);
 
@@ -232,7 +232,7 @@ public class MostrarClientes extends JPanel {
 
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(MostrarClientes.class.getResource("/Logos/RedCircle.jpg")));
-		lblBackground.setBounds(-313, 0, 931, 933);
+		lblBackground.setBounds(120, 0, 931, 933);
 		MainPanel.add(lblBackground);
 		actualizar();
 	}
