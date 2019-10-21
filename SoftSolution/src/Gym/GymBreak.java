@@ -109,7 +109,7 @@ public class GymBreak {
 		// El titulo
 		lblTitulo = new JLabel("Elige un Boton\r\n");
 		lblTitulo.setFont(new Font("Swis721 Hv BT", Font.ITALIC, 97));
-		lblTitulo.setBounds(24, 13, 807, 143);
+		lblTitulo.setBounds(24, 13, 1125, 143);
 
 		// El boton "X" para poder cerrar el programa sin usar el layout que nos da Java
 		JButton btnExit = new JButton("");
@@ -148,25 +148,8 @@ public class GymBreak {
 		btnAñadir.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		btnAñadir.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_add_user_male_32px.png")));
 		btnAñadir.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
-		btnAñadir.setBounds(0, 187, 320, 63);
+		btnAñadir.setBounds(0, 187, 320, 79);
 		SideMenu.add(btnAñadir);
-
-		// El boton para modificar el cliente
-		JButton btnModificar = new JButton("Modificar Cliente");
-		btnModificar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				aplicarVentana(ModificarClienteJPanel, "Modificar");
-
-			}
-		});
-		btnModificar.setBackground(Color.WHITE);
-		btnModificar.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_edit_user_male_32px.png")));
-		btnModificar.setIconTextGap(70);
-		btnModificar.setHorizontalAlignment(SwingConstants.LEFT);
-		btnModificar.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
-		btnModificar.setBounds(0, 247, 320, 63);
-		SideMenu.add(btnModificar);
 
 		// El boton para los pagos
 		JButton btnPagos = new JButton("Pagos");
@@ -182,7 +165,7 @@ public class GymBreak {
 		btnPagos.setIconTextGap(70);
 		btnPagos.setHorizontalAlignment(SwingConstants.LEFT);
 		btnPagos.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
-		btnPagos.setBounds(0, 365, 320, 63);
+		btnPagos.setBounds(0, 342, 320, 86);
 		SideMenu.add(btnPagos);
 
 		// El boton que enseña los clientes
@@ -199,7 +182,7 @@ public class GymBreak {
 		btnClientes.setIconTextGap(70);
 		btnClientes.setHorizontalAlignment(SwingConstants.LEFT);
 		btnClientes.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
-		btnClientes.setBounds(0, 424, 320, 63);
+		btnClientes.setBounds(0, 424, 320, 79);
 		SideMenu.add(btnClientes);
 
 		// Un muy simple about
@@ -219,12 +202,17 @@ public class GymBreak {
 		SideMenu.add(btnAbout);
 
 		JButton btnRegistrar = new JButton(" Registrar Entrada");
+		btnRegistrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				aplicarVentana(RegistrarEntradaJPanel, "Registro de Entrada");
+			}
+		});
 		btnRegistrar.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/icons8_clipboard_26px.png")));
 		btnRegistrar.setIconTextGap(70);
 		btnRegistrar.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRegistrar.setFont(new Font("Swis721 Hv BT", Font.PLAIN, 21));
 		btnRegistrar.setBackground(Color.WHITE);
-		btnRegistrar.setBounds(0, 304, 320, 63);
+		btnRegistrar.setBounds(0, 265, 320, 79);
 		SideMenu.add(btnRegistrar);
 
 		// Para el titulo arriba a la izquierdda
@@ -245,7 +233,7 @@ public class GymBreak {
 		// Coloca el logo chico hasta abajo
 		JLabel lblLogoChicoBajo = new JLabel("");
 		lblLogoChicoBajo.setIcon(new ImageIcon(GymBreak.class.getResource("/Logos/Logo_chico.jpeg")));
-		lblLogoChicoBajo.setBounds(109, PanelHeight-200, 99, 192);
+		lblLogoChicoBajo.setBounds(111, 551, 99, 192);
 		SideMenu.add(lblLogoChicoBajo);
 
 		// La barra roja en medio
