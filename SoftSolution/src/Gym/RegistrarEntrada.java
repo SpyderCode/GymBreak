@@ -145,36 +145,6 @@ public class RegistrarEntrada extends JPanel {
 		Horatxt.setText("" + LocalTime.now());
 		MainPanel.add(Horatxt);
 
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				long telNumx = Long.parseLong(txtNumTel.getText());
-				posx = principal.lista.buscarPosCliente(telNumx);
-
-				String detallesMedicosx = "";
-				for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
-					detallesMedicosx = detallesMedicosx + principal.lista.clientes.get(posx).getDetallesMedicos().get(i)
-							+ "\n";
-				}
-
-				// Sets datos en la caja de datos
-				Nombretxt.setText(getCliente(posx).getNombre());
-				Apellidotxt.setText(getCliente(posx).getApellido());
-				Edadtxt.setText("" + getCliente(posx).getEdad());
-				Sexotxt.setText("" + getCliente(posx).getSexo());
-				ProbMedicotxt.setText(detallesMedicosx);
-
-			}
-
-			private Clientes getCliente(int posx) {
-				return principal.lista.clientes.get(posx);
-			}
-		});
-		btnBuscar.setBackground(Color.WHITE);
-		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnBuscar.setBounds(12, 55, 123, 33);
-		MainPanel.add(btnBuscar);
-
 		JButton EntradaBtn = new JButton("Dar de Alta");
 		EntradaBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -199,5 +169,47 @@ public class RegistrarEntrada extends JPanel {
 		});
 		EntradaBtn.setBounds(973, 496, 152, 39);
 		MainPanel.add(EntradaBtn);
+		
+		JLabel lblDiasParaPagar = new JLabel("Dias para Pagar");
+		lblDiasParaPagar.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		lblDiasParaPagar.setBounds(565, 259, 274, 38);
+		MainPanel.add(lblDiasParaPagar);
+		
+		JLabel DiasFalttxt = new JLabel("");
+		DiasFalttxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		DiasFalttxt.setBorder(border);
+		DiasFalttxt.setBounds(855, 259, 202, 38);
+		MainPanel.add(DiasFalttxt);
+		
+				JButton btnBuscar = new JButton("Buscar");
+				btnBuscar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						long telNumx = Long.parseLong(txtNumTel.getText());
+						posx = principal.lista.buscarPosCliente(telNumx);
+
+						String detallesMedicosx = "";
+						for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
+							detallesMedicosx = detallesMedicosx + principal.lista.clientes.get(posx).getDetallesMedicos().get(i)
+									+ "\n";
+						}
+
+						// Sets datos en la caja de datos
+						Nombretxt.setText(getCliente(posx).getNombre());
+						Apellidotxt.setText(getCliente(posx).getApellido());
+						Edadtxt.setText("" + getCliente(posx).getEdad());
+						Sexotxt.setText("" + getCliente(posx).getSexo());
+						ProbMedicotxt.setText(detallesMedicosx);
+						DiasFalttxt.setText(""+getCliente(posx).getPago().diasFaltantes());
+
+					}
+
+					private Clientes getCliente(int posx) {
+						return principal.lista.clientes.get(posx);
+					}
+				});
+				btnBuscar.setBackground(Color.WHITE);
+				btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				btnBuscar.setBounds(12, 55, 123, 33);
+				MainPanel.add(btnBuscar);
 	}
 }

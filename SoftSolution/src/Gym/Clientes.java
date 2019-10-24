@@ -16,6 +16,7 @@ public class Clientes implements Serializable {
 	private ArrayList<String> detallesMedicos = new ArrayList<>();
 	private ArrayList<Entradas> entradas = new ArrayList<Entradas>();
 	private PagoCliente pago;
+	private String formaPago;
 	private String toStringMedicos = "";
 	private String toStringEntradas="";
 
@@ -192,13 +193,14 @@ public class Clientes implements Serializable {
 		entradas.add(x);
 	}
 
-//	@Override
-//	public String toString() {
-//		System.out.println(toStringMedicos);
-//		return nombre + "," + apellido + "," + sexo + "," + edad + "," + numeroTel + "," + direccion + ","
-//				+ toStringMedicos()+"_" + "," + toStringEntradas(entradas)
-//				+ "," + toStringPagos(pago) + "\n";
-//
-//	}
+	public String getFormaPago() {
+		return formaPago;
+	}
+
+	public void setFormaPago(String formaPago) {
+		this.formaPago = formaPago;
+	}
+
+
 
 }
