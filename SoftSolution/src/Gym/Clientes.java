@@ -17,6 +17,7 @@ public class Clientes implements Serializable {
 	private ArrayList<Entradas> entradas = new ArrayList<Entradas>();
 	private PagoCliente pago;
 	private String toStringMedicos = "";
+	private String toStringEntradas="";
 
 	public Clientes(String nombre, String apellido, char sexo, int edad, long numeroTel, String direccion,
 			ArrayList<String> detallesMedicos, ArrayList<Entradas> entradas, PagoCliente pago) {
@@ -58,6 +59,18 @@ public class Clientes implements Serializable {
 		this.numeroTel = numeroTel;
 		this.direccion = direccion;
 		this.detallesMedicos = detallesMedicos;
+	}
+
+	public Clientes(String nombrex, String apellidox, char sexox, int edadx, long numTelx, String direccionx,
+			ArrayList<String> detallesMedicosx) {
+		super();
+		this.nombre = nombrex;
+		this.apellido = apellidox;
+		this.sexo = sexox;
+		this.edad = edadx;
+		this.numeroTel = numTelx;
+		this.direccion = direccionx;
+		this.detallesMedicos = detallesMedicosx;
 	}
 
 	public String getNombre() {
@@ -117,8 +130,8 @@ public class Clientes implements Serializable {
 	}
 	
 	//toStrings
-	public String toStringMedicos(ArrayList<String> detallesMedicosx) {
-		for (String string : detallesMedicosx) {
+	public String toStringMedicos() {
+		for (String string : detallesMedicos) {
 			toStringMedicos += string + "_";
 		}
 		return toStringMedicos;
@@ -136,8 +149,11 @@ public class Clientes implements Serializable {
 		if (entradasx == null) {
 			return "_";
 		} else {
-			return entradas.toString();
+			for	(Entradas entradas : entradasx) {
+				toStringEntradas +=entradas;
+			}
 		}
+		return toStringEntradas;
 	}
 
 	@Override
@@ -171,16 +187,18 @@ public class Clientes implements Serializable {
 		return true;
 	}
 
-	public void altaEntrada(Entradas entradax) {
-		entradas.add(entradax);
+	public void altaEntrada(Entradas x) {
+		System.out.println(x.toString());
+		entradas.add(x);
 	}
 
-	@Override
-	public String toString() {
-		System.out.println(toStringMedicos);
-		return nombre + "," + apellido + "," + sexo + "," + edad + "," + numeroTel + "," + direccion + ","
-				+ toStringMedicos + "," + toStringEntradas(entradas) + "," + toStringPagos(pago) + "\n";
-
-	}
+//	@Override
+//	public String toString() {
+//		System.out.println(toStringMedicos);
+//		return nombre + "," + apellido + "," + sexo + "," + edad + "," + numeroTel + "," + direccion + ","
+//				+ toStringMedicos()+"_" + "," + toStringEntradas(entradas)
+//				+ "," + toStringPagos(pago) + "\n";
+//
+//	}
 
 }

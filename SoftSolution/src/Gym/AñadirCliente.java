@@ -16,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
@@ -167,8 +168,8 @@ public class AñadirCliente extends JPanel {
 
 					// Crea el cliente
 					Clientes clientex = new Clientes(nombrex, Apellidox, sexox, edadx, NumTelx, direccionx,
-							DetallesMedicosx, null,null);
-					clientex.toStringMedicos(DetallesMedicosx);
+							DetallesMedicosx);
+					clientex.toStringMedicos();
 
 					// Lo añade a la lista principal
 					System.out.println("Añadir cliente before");
@@ -184,6 +185,9 @@ public class AñadirCliente extends JPanel {
 					JOptionPane.showMessageDialog(null,
 							"Error: No se permite letras en el numero de telefono\nni en la edad.", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});

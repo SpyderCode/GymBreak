@@ -11,7 +11,7 @@ public class ListaClientes {
 		if (buscarPosCliente(e.getNumeroTel()) == -1) {
 			
 			System.out.println("Dando de alta Cliente");
-			
+			System.out.println(e);
 			clientes.add(e);
 			JOptionPane.showMessageDialog(null, "Cliente dado de alta", "Exito", JOptionPane.INFORMATION_MESSAGE);
 			

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 
-public class Entradas{
+public class Entradas implements Serializable{
 	//Atributos
 	private String Fecha;
 	LocalTime Hora;
@@ -28,9 +28,15 @@ public class Entradas{
 	public void setHora(LocalTime hora) {
 		Hora = hora;
 	}
-	public String toString() {
-		return ""+Fecha+"_"+Hora+"";
-		
+//	public String toString() {
+//		return Fecha+"_"+Hora+"_";
+//		
+//	}
+	public String getStringFecha() {
+		return ""+Fecha;
+	}
+	public String getStringHora() {
+		return ""+Hora;
 	}
 	
 }

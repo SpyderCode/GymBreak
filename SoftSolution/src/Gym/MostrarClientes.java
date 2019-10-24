@@ -21,6 +21,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 
@@ -33,7 +35,8 @@ public class MostrarClientes extends JPanel {
 	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 	private int posx;
 	private Long NumTely;
-	int textSize=18;
+	int textSize = 18;
+	private JTable tabledatosEntrada;
 
 	public MostrarClientes(GymBreak padre) {
 		principal = padre;
@@ -58,6 +61,14 @@ public class MostrarClientes extends JPanel {
 		txtNumTel.setBounds(310, 24, 378, 33);
 		MainPanel.add(txtNumTel);
 
+		JScrollPane scrollpaneEntradas = new JScrollPane();
+		tabledatosEntrada = new JTable();
+		tabledatosEntrada.setFont(new Font("Tahoma", Font.PLAIN, textSize));
+		scrollpaneEntradas.setBorder(border);
+		scrollpaneEntradas.setBounds(833, 370, 278, 165);
+		scrollpaneEntradas.getViewport().setBackground(Color.WHITE);
+		MainPanel.add(scrollpaneEntradas);
+
 		JScrollPane scrollPaneClientes = new JScrollPane();
 		scrollPaneClientes.setBorder(border);
 		tabledatos = new JTable();
@@ -66,30 +77,56 @@ public class MostrarClientes extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				try {
+//				try {
 
-					if (e.getClickCount() == 1) {
-						final JTable jTable = (JTable) e.getSource();
-						final int row = jTable.getSelectedRow();
-						
-						NumTely = (Long) jTable.getValueAt(row, 0);
-						posx = principal.lista.buscarPosCliente(NumTely);
-						
-						System.out.println(NumTely);
-						String detallesMedicosx = "";
-						for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
-							detallesMedicosx = detallesMedicosx
-									+ principal.lista.clientes.get(posx).getDetallesMedicos().get(i) + "\n";
-						}
+				if (e.getClickCount() == 1) {
+					final JTable jTable = (JTable) e.getSource();
+					final int row = jTable.getSelectedRow();
 
-						ProbMedicos.setText(detallesMedicosx);
+					NumTely = (Long) jTable.getValueAt(row, 0);
+					posx = principal.lista.buscarPosCliente(NumTely);
 
+					System.out.println(NumTely);
+					String detallesMedicosx = "";
+					for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
+						detallesMedicosx = detallesMedicosx
+								+ principal.lista.clientes.get(posx).getDetallesMedicos().get(i) + "\n";
 					}
 
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+					ProbMedicos.setText(detallesMedicosx);
+
+					int renglon = 0;
+					String[] encabezado = { "Fecha", "Hora" };
+					Object datos[][];
+					if (principal.lista.clientes.get(posx).getEntradas() == null) {
+						datos = new Object[100][100];
+						datos[0][0] = null;
+						datos[0][1] = null;
+					} else {
+						datos = new Object[principal.lista.clientes.get(posx).getEntradas().size()][];
+						for (int i = 0; i < principal.lista.clientes.get(posx).getEntradas().size(); i++) {
+							datos[renglon] = new Object[2];
+							datos[renglon][0] = principal.lista.clientes.get(posx).getEntradas().get(i)
+									.getStringFecha();
+							datos[renglon][1] = principal.lista.clientes.get(posx).getEntradas().get(i).getStringHora();
+							renglon++;
+						}
+					}
+
+					DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
+					tabledatosEntrada.setModel(modelo);
+					scrollpaneEntradas.setViewportView(tabledatosEntrada);
+
 				}
 
+//				} catch (Exception ex) {
+//					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+//				}
+
+			}
+
+			private Entradas getDate(int i) {
+				return principal.lista.clientes.get(posx).getEntradas().get(i);
 			}
 		});
 		scrollPaneClientes.setViewportView(tabledatos);
@@ -134,12 +171,6 @@ public class MostrarClientes extends JPanel {
 		btnBuscarCliente.setBackground(Color.WHITE);
 		btnBuscarCliente.setBounds(12, 78, 168, 33);
 		MainPanel.add(btnBuscarCliente);
-
-		JScrollPane scrollpaneEntradas = new JScrollPane();
-		scrollpaneEntradas.setBorder(border);
-		scrollpaneEntradas.setBounds(833, 370, 278, 165);
-		scrollpaneEntradas.getViewport().setBackground(Color.WHITE);
-		MainPanel.add(scrollpaneEntradas);
 
 		JLabel lblEntradas = new JLabel("Entradas");
 		lblEntradas.setFont(new Font("Tahoma", Font.PLAIN, 19));
@@ -221,6 +252,9 @@ public class MostrarClientes extends JPanel {
 				} catch (NullPointerException ex) {
 					JOptionPane.showMessageDialog(null, "Error: Selecciona a una persona con el mouse", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});
@@ -238,7 +272,7 @@ public class MostrarClientes extends JPanel {
 	}
 
 	private void actualizar() {
-		
+
 		String[] encabezado = { "NumTel", "Nombre", "Apellido", "Sexo", "Edad", "Dir" };
 		Object datos[][] = new Object[principal.lista.clientes.size()][];
 		int renglon = 0;

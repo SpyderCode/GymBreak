@@ -2,6 +2,7 @@ package Gym;
 //Diseñado por Ricardo Echaniz
 
 import java.awt.EventQueue;
+
 import java.awt.Point;
 
 import javax.swing.JFrame;
@@ -23,13 +24,17 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.MouseMotionAdapter;
 import java.io.BufferedWriter;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -39,8 +44,12 @@ import java.awt.Component;
 import java.awt.Cursor;
 import javax.swing.JLayeredPane;
 import java.awt.Toolkit;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class GymBreak {
+	FileInputStream fis;
 	// inicializa la lista de clientes
 	ListaClientes lista = new ListaClientes();
 	JFrame frmGymBreak;
@@ -52,9 +61,9 @@ public class GymBreak {
 	RegistrarEntrada RegistrarEntradaJPanel;
 	Pagos PagosJPanel;
 	JLabel lblTitulo;
-	
-	int PanelWidth=1453;
-	int PanelHeight=805;
+
+	int PanelWidth = 1453;
+	int PanelHeight = 805;
 
 	/**
 	 * Launch the application.
@@ -85,7 +94,13 @@ public class GymBreak {
 	private void initialize() {
 		GymBreak G = this;
 		// Se busca y obtiene datos del archivo "GymBreak.csv"
-		load();
+
+		try {
+			load();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		// Se inicializan los JPanels
 		MostrarClientesJPanel = new MostrarClientes(G);
 		AñadirClienteJPanel = new AñadirCliente(G);
@@ -113,7 +128,7 @@ public class GymBreak {
 
 		// El boton "X" para poder cerrar el programa sin usar el layout que nos da Java
 		JButton btnExit = new JButton("");
-		btnExit.setBounds(PanelWidth-50, 0, 54, 40);
+		btnExit.setBounds(PanelWidth - 50, 0, 54, 40);
 		frmGymBreak.getContentPane().add(btnExit);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -198,7 +213,7 @@ public class GymBreak {
 		btnAbout.setForeground(Color.WHITE);
 		btnAbout.setBackground(Color.WHITE);
 		btnAbout.setContentAreaFilled(false);
-		btnAbout.setBounds(0, PanelHeight-26, 97, 25);
+		btnAbout.setBounds(0, PanelHeight - 26, 97, 25);
 		SideMenu.add(btnAbout);
 
 		JButton btnRegistrar = new JButton(" Registrar Entrada");
@@ -288,11 +303,10 @@ public class GymBreak {
 	protected void aplicarVentana(JPanel VentanaJPanel, String titulo) {// Metodo para aplicar ventanas al proyecto
 		// Elimina los otros JPanel
 		eleminarall();
-		
+
 //		int PanelWidth=1453;
 //		int PanelHeight=805;
 //		lblTest.setBounds(320, 257, 1137, 548);
-		
 
 		// Luego coloca el nuevo JPanel con su tamaño
 		VentanaJPanel.setSize(1137, 548);
@@ -314,89 +328,161 @@ public class GymBreak {
 		frmGymBreak.remove(ModificarClienteJPanel);
 		frmGymBreak.remove(PagosJPanel);
 		frmGymBreak.remove(RegistrarEntradaJPanel);
+		//
 
 	}
 
-	public void save() {// Metodo para guardar el ArrayList a un documento .CSV
+	public void save() throws IOException {// Metodo para guardar el ArrayList a un documento .CSV
+		// saveExcel();
+		saveNormal();
+
+	}
+
+	private void saveNormal() {
+		FileOutputStream fout = null;
+		ObjectOutputStream oos = null;
 
 		try {
-			BufferedWriter writer = new BufferedWriter(
-					// Se obtiene el lugar a donde se guardara
-					new FileWriter(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB.csv\\"));
-			// La manera en la que se van a guardar:
-			// Nombre,Apellido,sexo,edad,numeroTel,direccion,detallesMedicos,Entradas,Pagos
-			// Escribe los datos de cada cliente en la lista en el documento
-			for (Clientes c : lista.clientes) {
-				writer.write(c.toString());
-			}
-			// Cierra el Writer
-			writer.close();
+			fout = new FileOutputStream(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB\\");
+			oos = new ObjectOutputStream(fout);
 
-			// Si todo funciona
+			for (Clientes c : lista.clientes) {
+				oos.writeObject(c);
+			}
+//			oos.writeObject(lista);
+			oos.close();
+			fout.close();
 			JOptionPane.showMessageDialog(null, "Archivo Guardado con Exito", "Exito", JOptionPane.DEFAULT_OPTION);
 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
-			// Si algo va mal
-			JOptionPane.showMessageDialog(null, "Error al guardar archivo" + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	public void load() {// Metodo para abrir el archivo .CSV
+	private void saveExcel() throws IOException {
+		BufferedWriter writer = new BufferedWriter(
+				// Se obtiene el lugar a donde se guardara
+				new FileWriter(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB\\"));
+		// La manera en la que se van a guardar:
+		// Nombre,Apellido,sexo,edad,numeroTel,direccion,detallesMedicos,Entradas,Pagos
+		// Escribe los datos de cada cliente en la lista en el documento
+		for (Clientes c : lista.clientes) {
+			writer.write(c.toString());
+		}
+		// Cierra el Writer
+		writer.close();
+
+		// Si todo funciona
+		JOptionPane.showMessageDialog(null, "Archivo Guardado con Exito", "Exito", JOptionPane.DEFAULT_OPTION);
+	}
+
+	public void load() throws IOException {// Metodo para abrir el archivo .CSV
+		// Scanner scan = new Scanner(
+//					// Obtiene el archivo de su ubicacion
+//					new File(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB.csv\\"));
+////			loadExcel(scan);
+
+			loadNormal();
+//		} catch (FileNotFoundException e) {
+//
+//			// Si no se encuentra el archivo, enseña este mensaje
+//			JOptionPane.showMessageDialog(null, "Error al abrir base de datos:\n" + "\nSe creara un"
+//					+ "nuevo archivo 'GymBreakDB' en tu carpeta de Documentos");
+//
+//			// Crea el archivo sin datos
+//			try {
+//				save();
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//		}
+
+	}
+
+	private void loadNormal() {
 		try {
-			Scanner scan = new Scanner(
-					// Obtiene el archivo de su ubicacion
-					new File(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB.csv\\"));
-			// Formato
-			// Nombre,Apellido,sexo,edad,numeroTel,direccion,detallesMedicos,Entradas
+			fis = new FileInputStream(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB\\");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			Clientes c;
+			while (true) {
+				c=(Clientes) ois.readObject();
+				lista.clientes.add(c);
+			}
+			
+		
+		}catch (EOFException ex) {
+			try {
+				fis.close();
+				JOptionPane.showMessageDialog(null, "Datos Cargados con Exito");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
-			// Lee cada linea del archivo
-			while (scan.hasNextLine()) {// Mientras haya lineas, lee
-				PagoCliente pago = null;
-				// Primero se escanea la linea del archivo
-				String line = scan.nextLine();
+	private void loadExcel(Scanner scan) {
+		while (scan.hasNextLine()) {// Mientras haya lineas, lee
+			PagoCliente pago = null;
+			// Primero se escanea la linea del archivo
+			String line = scan.nextLine();
 
-				String[] lineArray = line.split(",");// Todo lo demas
+			String[] lineArray = line.split(",");// Todo lo demas
 
-				/*
-				 * Como los datos de Detalles Medicos,pagos y Entradas estan en una sola celda
-				 * en eclipse Aqui se crea ArrayList cortando los datos con el _
-				 */
-				String sMedico[] = lineArray[6].split("_");// Detalles Medicos
-				String eEntradas[] = lineArray[7].split("_");// Entradas
-				String[] dPago = new String[2]; // Pago
+			/*
+			 * Como los datos de Detalles Medicos,pagos y Entradas estan en una sola celda
+			 * en eclipse Aqui se crea ArrayList cortando los datos con el _
+			 */
+			String sMedico[] = lineArray[6].split("_");// Detalles Medicos
+			String eEntradas[] = lineArray[7].split("_");// Entradas
+			String[] dPago = new String[2]; // Pago
 
-				// Checa a ver si hay datos o no en la celda de pagos
-				if (lineArray[8].equals("_")) {// Si no, no hace nada y pagos queda como null
-				} else {
-					dPago = lineArray[8].split("_");
-					// Para colocar el pago en su lugar de una manera mas facil
-					pago = new PagoCliente(LocalDate.parse(dPago[0]), Integer.parseInt(dPago[1]));
-				}
-				// Coloca los arreglos a su ArrayList
-				ArrayList<String> detallesMedicos = new ArrayList<>(Arrays.asList(sMedico));
-				ArrayList<String> entradas = new ArrayList<>(Arrays.asList(eEntradas));
-
-				// Crea el cliente
-				Clientes clientex = new Clientes(lineArray[0], lineArray[1], lineArray[2].charAt(0),
-						Integer.parseInt(lineArray[3]), Long.parseLong(lineArray[4]), lineArray[5], detallesMedicos,
-						entradas);
-				// Le añade el pago
-				clientex.setPago(pago);
-
-				// Añade el cliente a la lista
-				lista.clientes.add(clientex);
-
+			// Checa a ver si hay datos o no en la celda de pagos
+			if (lineArray[8].equals("_")) {// Si no, no hace nada y pagos queda como null
+			} else {
+				dPago = lineArray[8].split("_");
+				// Para colocar el pago en su lugar de una manera mas facil
+				pago = new PagoCliente(LocalDate.parse(dPago[0]), Integer.parseInt(dPago[1]));
 			}
 
-		} catch (FileNotFoundException e) {
+			// Coloca los arreglos a su ArrayList
+			ArrayList<String> detallesMedicos = new ArrayList<>(Arrays.asList(sMedico));
+//				ArrayList<String> entradas = new ArrayList<>(Arrays.asList(eEntradas));
 
-			// Si no se encuentra el archivo, enseña este mensaje
-			JOptionPane.showMessageDialog(null, "Error al abrir base de datos:\n" + "\nSe creara un"
-					+ "nuevo archivo 'GymBreakDB' en tu carpeta de Documentos");
+			// Crea el cliente
+			Clientes clientex = new Clientes(lineArray[0], lineArray[1], lineArray[2].charAt(0),
+					Integer.parseInt(lineArray[3]), Long.parseLong(lineArray[4]), lineArray[5], detallesMedicos, null);
+			// Le añade el pago
+			clientex.setPago(pago);
+			System.out.println(eEntradas.length);
+			if (lineArray[7].equals("_")) {
+			} else {
+				for (int i = 0; i < eEntradas.length; i += 2) {
+					String fecha = "" + eEntradas[i];
+					LocalTime hora = LocalTime.parse(eEntradas[i + 1]);
 
-			// Crea el archivo sin datos
-			save();
+					Entradas x = new Entradas(fecha, hora);
+					clientex.altaEntrada(x);
+				}
+			}
+
+			// Añade el cliente a la lista
+			lista.clientes.add(clientex);
+
 		}
-
 	}
 }
