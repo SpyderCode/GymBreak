@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.border.Border;
@@ -37,6 +39,8 @@ public class MostrarClientes extends JPanel {
 	private Long NumTely;
 	int textSize = 18;
 	private JTable tabledatosEntrada;
+	private JLabel lblUltimoPago;
+	private JLabel lblDiasFaltantes;
 
 	public MostrarClientes(GymBreak padre) {
 		principal = padre;
@@ -77,56 +81,73 @@ public class MostrarClientes extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-//				try {
+				try {
+					// String Array de Problemas medicas
+					if (e.getClickCount() == 1) {
+						final JTable jTable = (JTable) e.getSource();
+						final int row = jTable.getSelectedRow();
 
-				if (e.getClickCount() == 1) {
-					final JTable jTable = (JTable) e.getSource();
-					final int row = jTable.getSelectedRow();
+						NumTely = (Long) jTable.getValueAt(row, 0);
+						posx = principal.lista.buscarPosCliente(NumTely);
 
-					NumTely = (Long) jTable.getValueAt(row, 0);
-					posx = principal.lista.buscarPosCliente(NumTely);
-
-					System.out.println(NumTely);
-					String detallesMedicosx = "";
-					for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
-						detallesMedicosx = detallesMedicosx
-								+ principal.lista.clientes.get(posx).getDetallesMedicos().get(i) + "\n";
-					}
-
-					ProbMedicos.setText(detallesMedicosx);
-
-					int renglon = 0;
-					String[] encabezado = { "Fecha", "Hora" };
-					Object datos[][];
-					if (principal.lista.clientes.get(posx).getEntradas() == null) {
-						datos = new Object[100][100];
-						datos[0][0] = null;
-						datos[0][1] = null;
-					} else {
-						datos = new Object[principal.lista.clientes.get(posx).getEntradas().size()][];
-						for (int i = 0; i < principal.lista.clientes.get(posx).getEntradas().size(); i++) {
-							datos[renglon] = new Object[2];
-							datos[renglon][0] = principal.lista.clientes.get(posx).getEntradas().get(i)
-									.getStringFecha();
-							datos[renglon][1] = principal.lista.clientes.get(posx).getEntradas().get(i).getStringHora();
-							renglon++;
+						System.out.println(NumTely);
+						String detallesMedicosx = "";
+						for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
+							detallesMedicosx = detallesMedicosx
+									+ principal.lista.clientes.get(posx).getDetallesMedicos().get(i) + "\n";
 						}
+
+						ProbMedicos.setText(detallesMedicosx);
+
+						// Tabla de Entradas
+						int renglon = 0;
+						String[] encabezado = { "Fecha", "Hora" };
+						Object datos[][];
+						if (principal.lista.clientes.get(posx).getEntradas() == null) {
+							datos = new Object[100][100];
+							datos[0][0] = null;
+							datos[0][1] = null;
+						} else {
+							datos = new Object[principal.lista.clientes.get(posx).getEntradas().size()][];
+							for (int i = principal.lista.clientes.get(posx).getEntradas().size()-1; i >=0; i--) {
+								datos[renglon] = new Object[2];
+								datos[renglon][0] = principal.lista.clientes.get(posx).getEntradas().get(i)
+										.getStringFecha();
+								datos[renglon][1] = principal.lista.clientes.get(posx).getEntradas().get(i)
+										.getStringHora();
+								renglon++;
+							}
+						}
+
+						DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
+						tabledatosEntrada.setModel(modelo);
+						scrollpaneEntradas.setViewportView(tabledatosEntrada);
+
+						// Pagos
+						if (pago()==null) {
+							lblDiasFaltantes.setText("");
+							lblUltimoPago.setText("");
+						}
+						else if (pago().diasFaltantes() < 5) {
+							JOptionPane.showMessageDialog(null, "Ya casi se vence la mensualidad", "Aviso",
+									JOptionPane.INFORMATION_MESSAGE);
+							lblDiasFaltantes.setText("" + pago().diasFaltantes());// Dias Faltantes
+							lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
+						}
+						else {
+						lblDiasFaltantes.setText("" + pago().diasFaltantes());// Dias Faltantes
+						lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
+						}
+
 					}
-
-					DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
-					tabledatosEntrada.setModel(modelo);
-					scrollpaneEntradas.setViewportView(tabledatosEntrada);
-
+				} catch (HeadlessException e1) {
+					JOptionPane.showMessageDialog(null, "Error: " + e1, "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
-
-//				} catch (Exception ex) {
-//					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
-//				}
 
 			}
 
-			private Entradas getDate(int i) {
-				return principal.lista.clientes.get(posx).getEntradas().get(i);
+			private PagoCliente pago() {
+				return principal.lista.clientes.get(posx).getPago();
 			}
 		});
 		scrollPaneClientes.setViewportView(tabledatos);
@@ -188,11 +209,11 @@ public class MostrarClientes extends JPanel {
 		lblDiasParaPagar.setBounds(954, 15, 157, 25);
 		MainPanel.add(lblDiasParaPagar);
 
-		JLabel lblDiasFaltantes = new JLabel("");
+		lblDiasFaltantes = new JLabel("");
 		lblDiasFaltantes.setForeground(Color.BLACK);
 		lblDiasFaltantes.setBackground(Color.WHITE);
 		lblDiasFaltantes.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblDiasFaltantes.setBounds(808, 48, 135, 28);
+		lblDiasFaltantes.setBounds(954, 51, 135, 28);
 		lblDiasFaltantes.setBorder(border);
 		MainPanel.add(lblDiasFaltantes);
 
@@ -206,9 +227,9 @@ public class MostrarClientes extends JPanel {
 		lblFechaDeUltimo.setBounds(808, 13, 157, 28);
 		MainPanel.add(lblFechaDeUltimo);
 
-		JLabel lblUltimoPago = new JLabel("");
+		lblUltimoPago = new JLabel("");
 		lblUltimoPago.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblUltimoPago.setBounds(954, 48, 135, 28);
+		lblUltimoPago.setBounds(807, 51, 135, 28);
 		lblUltimoPago.setBorder(border);
 		MainPanel.add(lblUltimoPago);
 
@@ -253,8 +274,7 @@ public class MostrarClientes extends JPanel {
 					JOptionPane.showMessageDialog(null, "Error: Selecciona a una persona con el mouse", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -273,28 +293,32 @@ public class MostrarClientes extends JPanel {
 
 	private void actualizar() {
 
-		String[] encabezado = { "NumTel", "Nombre", "Apellido", "Sexo", "Edad", "Dir" };
-		Object datos[][] = new Object[principal.lista.clientes.size()][];
-		int renglon = 0;
+		try {
+			String[] encabezado = { "NumTel", "Nombre", "Apellido", "Sexo", "Edad", "Dir" };
+			Object datos[][] = new Object[principal.lista.clientes.size()][];
+			int renglon = 0;
 
-		for (Clientes x : principal.lista.clientes) {
-			datos[renglon] = new Object[6];
-			// Numero de telefono
-			datos[renglon][0] = x.getNumeroTel();
-			// Nombre
-			datos[renglon][1] = x.getNombre();
-			// Apellido(s)
-			datos[renglon][2] = x.getApellido();
-			// Sexo UwU
-			datos[renglon][3] = x.getSexo();
-			// Edad
-			datos[renglon][4] = x.getEdad();
-			// Dirrecion
-			datos[renglon][5] = x.getDireccion();
-			renglon++;
+			for (Clientes x : principal.lista.clientes) {
+				datos[renglon] = new Object[6];
+				// Numero de telefono
+				datos[renglon][0] = x.getNumeroTel();
+				// Nombre
+				datos[renglon][1] = x.getNombre();
+				// Apellido(s)
+				datos[renglon][2] = x.getApellido();
+				// Sexo UwU
+				datos[renglon][3] = x.getSexo();
+				// Edad
+				datos[renglon][4] = x.getEdad();
+				// Dirrecion
+				datos[renglon][5] = x.getDireccion();
+				renglon++;
+			}
+
+			DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
+			tabledatos.setModel(modelo);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
-
-		DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
-		tabledatos.setModel(modelo);
 	}
 }

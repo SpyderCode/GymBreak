@@ -17,6 +17,7 @@ public class Clientes implements Serializable {
 	private ArrayList<Entradas> entradas = new ArrayList<Entradas>();
 	private PagoCliente pago;
 	private String formaPago;
+	
 	private String toStringMedicos = "";
 	private String toStringEntradas="";
 

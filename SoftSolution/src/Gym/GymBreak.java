@@ -57,7 +57,6 @@ public class GymBreak {
 	// Se ponen los JPanels aqui para que pueda ser accessibles en todo el programa
 	MostrarClientes MostrarClientesJPanel;
 	AñadirCliente AñadirClienteJPanel;
-	ModificarCliente ModificarClienteJPanel;
 	RegistrarEntrada RegistrarEntradaJPanel;
 	Pagos PagosJPanel;
 	JLabel lblTitulo;
@@ -104,7 +103,6 @@ public class GymBreak {
 		// Se inicializan los JPanels
 		MostrarClientesJPanel = new MostrarClientes(G);
 		AñadirClienteJPanel = new AñadirCliente(G);
-		ModificarClienteJPanel = new ModificarCliente(G);
 		RegistrarEntradaJPanel = new RegistrarEntrada(G);
 		PagosJPanel = new Pagos(G);
 
@@ -301,37 +299,37 @@ public class GymBreak {
 	 * 
 	 */
 	protected void aplicarVentana(JPanel VentanaJPanel, String titulo) {// Metodo para aplicar ventanas al proyecto
-		// Elimina los otros JPanel
-		eleminarall();
+		try {
+			// Elimina los otros JPanel
+			eleminarall();
 
-		// Luego coloca el nuevo JPanel con su tamaño
-		VentanaJPanel.setSize(1137, 548);
-		VentanaJPanel.setLocation(320, 257);
-		// Cambia el titulo
-		lblTitulo.setText(titulo);
-		// Lo enseña en el programa
-		frmGymBreak.getContentPane().add(VentanaJPanel, BorderLayout.CENTER);
-		frmGymBreak.revalidate();
-		frmGymBreak.repaint();
-		// Debug
-		System.out.println("Exito Aplicar Ventana");
+			// Luego coloca el nuevo JPanel con su tamaño
+			VentanaJPanel.setSize(1137, 548);
+			VentanaJPanel.setLocation(320, 257);
+			// Cambia el titulo
+			lblTitulo.setText(titulo);
+			// Lo enseña en el programa
+			frmGymBreak.getContentPane().add(VentanaJPanel, BorderLayout.CENTER);
+			frmGymBreak.revalidate();
+			frmGymBreak.repaint();
+			// Debug
+			System.out.println("Exito Aplicar Ventana");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+		}
 
 	}
 
 	protected void eleminarall() {// El metodo para eleminar todos los JPanels
 		frmGymBreak.remove(MostrarClientesJPanel);
 		frmGymBreak.remove(AñadirClienteJPanel);
-		frmGymBreak.remove(ModificarClienteJPanel);
 		frmGymBreak.remove(PagosJPanel);
 		frmGymBreak.remove(RegistrarEntradaJPanel);
-		//
 
 	}
 
 	public void save() throws IOException {// Metodo para guardar el ArrayList a un documento .CSV
-		// saveExcel();
 		saveNormal();
-
 	}
 
 	private void saveNormal() {
@@ -345,22 +343,19 @@ public class GymBreak {
 			for (Clientes c : lista.clientes) {
 				oos.writeObject(c);
 			}
-//			oos.writeObject(lista);
 			oos.close();
 			fout.close();
 			JOptionPane.showMessageDialog(null, "Archivo Guardado con Exito", "Exito", JOptionPane.DEFAULT_OPTION);
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	public void load() throws IOException {// Metodo para abrir el archivo .CSV
-			loadNormal();
+		loadNormal();
 
 	}
 
@@ -370,28 +365,24 @@ public class GymBreak {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			Clientes c;
 			while (true) {
-				c=(Clientes) ois.readObject();
+				c = (Clientes) ois.readObject();
 				lista.clientes.add(c);
 			}
-			
-		
-		}catch (EOFException ex) {
+
+		} catch (EOFException ex) {
 			try {
 				fis.close();
 				JOptionPane.showMessageDialog(null, "Datos Cargados con Exito");
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
-		
+
 	}
 }

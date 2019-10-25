@@ -17,6 +17,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.JButton;
 import com.toedter.calendar.JMonthChooser;
 import javax.swing.JTextArea;
@@ -145,71 +147,101 @@ public class RegistrarEntrada extends JPanel {
 		Horatxt.setText("" + LocalTime.now());
 		MainPanel.add(Horatxt);
 
-		JButton EntradaBtn = new JButton("Dar de Alta");
-		EntradaBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				long telNumx = Long.parseLong(txtNumTel.getText());
-				int posy = principal.lista.buscarPosCliente(telNumx);
-				System.out.println(posy);
-				
-				Entradas entradayeet = new Entradas();
-				entradayeet.setFecha(""+LocalDate.now());
-				entradayeet.setHora(LocalTime.now());
-				principal.lista.clientes.get(posy).altaEntrada(entradayeet);
-
-				JOptionPane.showMessageDialog(null, "Dado de Alta la entrada\nFecha: " + LocalDate.now() + "\nHora: " + LocalTime.now(),
-						"Exito", JOptionPane.DEFAULT_OPTION);
-				try {
-					principal.save();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		EntradaBtn.setBounds(973, 496, 152, 39);
-		MainPanel.add(EntradaBtn);
-		
 		JLabel lblDiasParaPagar = new JLabel("Dias para Pagar");
 		lblDiasParaPagar.setFont(new Font("Tahoma", Font.PLAIN, 33));
 		lblDiasParaPagar.setBounds(565, 259, 274, 38);
 		MainPanel.add(lblDiasParaPagar);
-		
+
 		JLabel DiasFalttxt = new JLabel("");
 		DiasFalttxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		DiasFalttxt.setBorder(border);
 		DiasFalttxt.setBounds(855, 259, 202, 38);
 		MainPanel.add(DiasFalttxt);
+
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					long telNumx = Long.parseLong(txtNumTel.getText());
+					posx = principal.lista.buscarPosCliente(telNumx);
+
+					String detallesMedicosx = "";
+					for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
+						detallesMedicosx = detallesMedicosx
+								+ principal.lista.clientes.get(posx).getDetallesMedicos().get(i) + "\n";
+					}
+
+					// Sets datos en la caja de datos
+					Nombretxt.setText(getCliente(posx).getNombre());
+					Apellidotxt.setText(getCliente(posx).getApellido());
+					Edadtxt.setText("" + getCliente(posx).getEdad());
+					Sexotxt.setText("" + getCliente(posx).getSexo());
+					ProbMedicotxt.setText(detallesMedicosx);
+					if (getCliente(posx).getPago() == null) {
+					} else {
+						DiasFalttxt.setText("" + getCliente(posx).getPago().diasFaltantes());
+					}
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+
+			private Clientes getCliente(int posx) {
+				return principal.lista.clientes.get(posx);
+			}
+		});
+		btnBuscar.setBackground(Color.WHITE);
+		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnBuscar.setBounds(12, 55, 123, 33);
+		MainPanel.add(btnBuscar);
+
+		JButton EntradaBtn = new JButton("Dar de Alta");
+		EntradaBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					long telNumx = Long.parseLong(txtNumTel.getText());
+					int posy = principal.lista.buscarPosCliente(telNumx);
+					System.out.println(posy);
+
+					Entradas entradayeet = new Entradas();
+					entradayeet.setFecha("" + LocalDate.now());
+					entradayeet.setHora(LocalTime.now());
+					principal.lista.clientes.get(posy).altaEntrada(entradayeet);
+
+					JOptionPane.showMessageDialog(null,
+							"Dado de Alta la entrada\nFecha: " + LocalDate.now() + "\nHora: " + LocalTime.now(),
+							"Exito", JOptionPane.DEFAULT_OPTION);
+
+					principal.save();// Guarda todo
+					cleartext();// Borra las cajas
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+				} catch (HeadlessException e) {
+					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+
+			private void cleartext() {
+				txtNumTel.setText(null);
+				Apellidotxt.setText(null);
+				DiasFalttxt.setText(null);
+				Edadtxt.setText(null);
+				Nombretxt.setText(null);
+				ProbMedicotxt.setText(null);
+				Sexotxt.setText(null);
+
+			}
+		});
+		EntradaBtn.setBounds(973, 496, 152, 39);
+		MainPanel.add(EntradaBtn);
 		
-				JButton btnBuscar = new JButton("Buscar");
-				btnBuscar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						long telNumx = Long.parseLong(txtNumTel.getText());
-						posx = principal.lista.buscarPosCliente(telNumx);
-
-						String detallesMedicosx = "";
-						for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
-							detallesMedicosx = detallesMedicosx + principal.lista.clientes.get(posx).getDetallesMedicos().get(i)
-									+ "\n";
-						}
-
-						// Sets datos en la caja de datos
-						Nombretxt.setText(getCliente(posx).getNombre());
-						Apellidotxt.setText(getCliente(posx).getApellido());
-						Edadtxt.setText("" + getCliente(posx).getEdad());
-						Sexotxt.setText("" + getCliente(posx).getSexo());
-						ProbMedicotxt.setText(detallesMedicosx);
-						DiasFalttxt.setText(""+getCliente(posx).getPago().diasFaltantes());
-
-					}
-
-					private Clientes getCliente(int posx) {
-						return principal.lista.clientes.get(posx);
-					}
-				});
-				btnBuscar.setBackground(Color.WHITE);
-				btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				btnBuscar.setBounds(12, 55, 123, 33);
-				MainPanel.add(btnBuscar);
+		JLabel BackGround = new JLabel("");
+		BackGround.setIcon(new ImageIcon(RegistrarEntrada.class.getResource("/Logos/108287-red-and-white-wave.jpg")));
+		BackGround.setBounds(0, 0, 1137, 558);
+		MainPanel.add(BackGround);
 	}
 }

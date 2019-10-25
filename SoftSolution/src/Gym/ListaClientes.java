@@ -7,6 +7,7 @@ public class ListaClientes {
 	public ArrayList<Clientes> clientes = new ArrayList<Clientes>();
 
 	public void altaClientes(Clientes e) {
+		
 		// Primero busca a ver si existe el cliente
 		if (buscarPosCliente(e.getNumeroTel()) == -1) {
 			

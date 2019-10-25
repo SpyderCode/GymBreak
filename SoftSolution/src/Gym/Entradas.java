@@ -28,10 +28,7 @@ public class Entradas implements Serializable{
 	public void setHora(LocalTime hora) {
 		Hora = hora;
 	}
-//	public String toString() {
-//		return Fecha+"_"+Hora+"_";
-//		
-//	}
+
 	public String getStringFecha() {
 		return ""+Fecha;
 	}

@@ -34,6 +34,7 @@ public class PagoCliente implements Serializable{
 	public int diasFaltantes() {
 		LocalDate endDate = pago.plusMonths(meses);
 		return (int) ChronoUnit.DAYS.between(pago, endDate);
+		
 	}
 
 	@Override

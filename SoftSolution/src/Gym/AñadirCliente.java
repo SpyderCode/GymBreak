@@ -186,8 +186,9 @@ public class AñadirCliente extends JPanel {
 							"Error: No se permite letras en el numero de telefono\nni en la edad.", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null,
+							"Error: "+e, "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
