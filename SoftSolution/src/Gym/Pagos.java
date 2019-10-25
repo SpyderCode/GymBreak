@@ -62,8 +62,7 @@ public class Pagos extends JPanel {
 		panel.setLayout(null);
 		panel.setOpaque(false);
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos", TitledBorder.LEADING,
-
-				TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 20), Color.BLACK));
+				TitledBorder.TOP, new Font("Tahoma", Font.PLAIN, 20), Color.BLACK)); //El borde chido
 		panel.setBounds(12, 101, 527, 434);
 		MainPanel.add(panel);
 
@@ -127,20 +126,29 @@ public class Pagos extends JPanel {
 		JButton btnDarAlta = new JButton("Dar de Alta");
 		btnDarAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				try {
+					//Obtiene la posicion del cliente en base de su numero de telefono
 					long telNumx = Long.parseLong(NumTeltxt.getText());
 					int posx = principal.lista.buscarPosCliente(telNumx);
-					System.out.println(posx);
+					System.out.println(posx);//Debug
 
+					//Obtiene los datos ya en los cuadros
 					String tipoPagox = Tipotxt.getText();
 					int mesesx = Integer.parseInt(Mesestxt.getText());
+					
+					//Obtiene el dia de hoy y crea un objeto de pago, el dia de hoy y la mensualidad
 					LocalDate date = LocalDate.now();
 					PagoCliente pagox = new PagoCliente(date, mesesx);
 
+					//Añade el pago al cliente
 					getCliente(posx).setFormaPago(tipoPagox);
 					getCliente(posx).setPago(pagox);
+					
+					//Guarda el archivo
 					principal.save();
 
+					//Clears text
 					cleartxt();
 				} catch (NumberFormatException | IOException e1) {
 					JOptionPane.showMessageDialog(null, "Error: " + e1, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -148,7 +156,7 @@ public class Pagos extends JPanel {
 
 			}
 
-			private void cleartxt() {
+			private void cleartxt() {//simplemente borra las cajas
 				Apellidotxt.setText(null);
 				Nombretxt.setText(null);
 				Mesestxt.setText(null);
@@ -157,7 +165,7 @@ public class Pagos extends JPanel {
 
 			}
 
-			private Clientes getCliente(int posx) {
+			private Clientes getCliente(int posx) {//Para no escribir tanto codigo
 				return principal.lista.clientes.get(posx);
 			}
 		});
@@ -167,15 +175,21 @@ public class Pagos extends JPanel {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				try {
+					//Obtiene datos
 					long telNumx = Long.parseLong(NumTeltxt.getText());
 					int posx = principal.lista.buscarPosCliente(telNumx);
 					System.out.println(posx);
 
+					//Da el nombre y apellido del cliente
 					Nombretxt.setText("" + getCliente(posx).getNombre());
 					Apellidotxt.setText("" + getCliente(posx).getApellido());
+					
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					JOptionPane.showMessageDialog(null, "Cliente no existe o el numero telefonico esta mal escrito", "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 
@@ -187,11 +201,12 @@ public class Pagos extends JPanel {
 		btnBuscar.setBackground(Color.WHITE);
 		btnBuscar.setBounds(12, 55, 123, 33);
 		MainPanel.add(btnBuscar);
-		
+
 		JLabel BackGround = new JLabel("");
 		BackGround.setBounds(-187, 175, 1863, 844);
 		MainPanel.add(BackGround);
-		BackGround.setIcon(new ImageIcon(Pagos.class.getResource("/Logos/gallery-red-and-white-backgrounds-drawing-art-gallery.jpg")));
+		BackGround.setIcon(new ImageIcon(
+				Pagos.class.getResource("/Logos/gallery-red-and-white-backgrounds-drawing-art-gallery.jpg")));
 
 	}
 }

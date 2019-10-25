@@ -1,8 +1,4 @@
 package Gym;
-//Uncle sam im trying to sneak myself into japan but
-
-//im dummy thicc and the clap of my ass cheeks is
-//alerting the nations
 
 import java.awt.Color;
 
@@ -30,12 +26,15 @@ import java.time.LocalTime;
 import java.awt.event.ActionEvent;
 
 public class RegistrarEntrada extends JPanel {
+
 	public GymBreak principal;
 	private JTextField txtNumTel;
-	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-	int textSize = 18;
+
 	LocalDate Hoy;
 	LocalTime Hora;
+
+	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+	int textSize = 18;
 	int posx;
 
 	public RegistrarEntrada(GymBreak padre) {
@@ -161,10 +160,13 @@ public class RegistrarEntrada extends JPanel {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				try {
+					// Obtiene posicion del cliente
 					long telNumx = Long.parseLong(txtNumTel.getText());
 					posx = principal.lista.buscarPosCliente(telNumx);
 
+					// La caja de problema medica
 					String detallesMedicosx = "";
 					for (int i = 0; i < principal.lista.clientes.get(posx).getDetallesMedicos().size(); i++) {
 						detallesMedicosx = detallesMedicosx
@@ -177,12 +179,18 @@ public class RegistrarEntrada extends JPanel {
 					Edadtxt.setText("" + getCliente(posx).getEdad());
 					Sexotxt.setText("" + getCliente(posx).getSexo());
 					ProbMedicotxt.setText(detallesMedicosx);
-					if (getCliente(posx).getPago() == null) {
-					} else {
+
+					// if else para no obtener errores
+					if (getCliente(posx).getPago() == null) {// Si no tiene pagos, no pasa nada
+
+					} else {// Si si,obtiene los dias faltantes
 						DiasFalttxt.setText("" + getCliente(posx).getPago().diasFaltantes());
 					}
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					JOptionPane.showMessageDialog(null, "Cliente no existe o el numero telefonico esta mal escrito",
+							"ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -200,15 +208,17 @@ public class RegistrarEntrada extends JPanel {
 		EntradaBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					// Obtiene posicion
 					long telNumx = Long.parseLong(txtNumTel.getText());
 					int posy = principal.lista.buscarPosCliente(telNumx);
-					System.out.println(posy);
 
+					// Crea una nueva entrada y se le añade al cliente
 					Entradas entradayeet = new Entradas();
 					entradayeet.setFecha("" + LocalDate.now());
 					entradayeet.setHora(LocalTime.now());
 					principal.lista.clientes.get(posy).altaEntrada(entradayeet);
 
+					// Muestra un mensaje dando a entender la hora y tiempo de entrada al cliente
 					JOptionPane.showMessageDialog(null,
 							"Dado de Alta la entrada\nFecha: " + LocalDate.now() + "\nHora: " + LocalTime.now(),
 							"Exito", JOptionPane.DEFAULT_OPTION);
@@ -225,7 +235,7 @@ public class RegistrarEntrada extends JPanel {
 
 			}
 
-			private void cleartext() {
+			private void cleartext() {// Borra las cajas
 				txtNumTel.setText(null);
 				Apellidotxt.setText(null);
 				DiasFalttxt.setText(null);
@@ -238,7 +248,7 @@ public class RegistrarEntrada extends JPanel {
 		});
 		EntradaBtn.setBounds(973, 496, 152, 39);
 		MainPanel.add(EntradaBtn);
-		
+
 		JLabel BackGround = new JLabel("");
 		BackGround.setIcon(new ImageIcon(RegistrarEntrada.class.getResource("/Logos/108287-red-and-white-wave.jpg")));
 		BackGround.setBounds(0, 0, 1137, 558);

@@ -31,16 +31,16 @@ import javax.swing.JTextArea;
 public class MostrarClientes extends JPanel {
 	public GymBreak principal;
 	private JTextField txtNumTel;
-	private JTable tabledatos;
-	private JLabel lblProbmedicos;
 	private JTextArea ProbMedicos;
-	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-	private int posx;
-	private Long NumTely;
-	int textSize = 18;
+	private JTable tabledatos;
 	private JTable tabledatosEntrada;
+	private JLabel lblProbmedicos;
 	private JLabel lblUltimoPago;
 	private JLabel lblDiasFaltantes;
+	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+	private Long NumTely;
+	private int textSize = 18;
+	private int posx;
 
 	public MostrarClientes(GymBreak padre) {
 		principal = padre;
@@ -103,13 +103,13 @@ public class MostrarClientes extends JPanel {
 						int renglon = 0;
 						String[] encabezado = { "Fecha", "Hora" };
 						Object datos[][];
-						if (principal.lista.clientes.get(posx).getEntradas() == null) {
+						if (principal.lista.clientes.get(posx).getEntradas() == null) {// si no tiene, no pone nada
 							datos = new Object[100][100];
 							datos[0][0] = null;
 							datos[0][1] = null;
-						} else {
+						} else {// Si si, enseña el mas reciente primero
 							datos = new Object[principal.lista.clientes.get(posx).getEntradas().size()][];
-							for (int i = principal.lista.clientes.get(posx).getEntradas().size()-1; i >=0; i--) {
+							for (int i = principal.lista.clientes.get(posx).getEntradas().size() - 1; i >= 0; i--) {
 								datos[renglon] = new Object[2];
 								datos[renglon][0] = principal.lista.clientes.get(posx).getEntradas().get(i)
 										.getStringFecha();
@@ -124,19 +124,17 @@ public class MostrarClientes extends JPanel {
 						scrollpaneEntradas.setViewportView(tabledatosEntrada);
 
 						// Pagos
-						if (pago()==null) {
+						if (pago() == null) {
 							lblDiasFaltantes.setText("");
 							lblUltimoPago.setText("");
-						}
-						else if (pago().diasFaltantes() < 5) {
+						} else if (pago().diasFaltantes() < 5) {// Si ya casi es el fin de su mensualidad, avisa
 							JOptionPane.showMessageDialog(null, "Ya casi se vence la mensualidad", "Aviso",
 									JOptionPane.INFORMATION_MESSAGE);
 							lblDiasFaltantes.setText("" + pago().diasFaltantes());// Dias Faltantes
 							lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
-						}
-						else {
-						lblDiasFaltantes.setText("" + pago().diasFaltantes());// Dias Faltantes
-						lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
+						} else {
+							lblDiasFaltantes.setText("" + pago().diasFaltantes());// Dias Faltantes
+							lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
 						}
 
 					}
@@ -155,6 +153,7 @@ public class MostrarClientes extends JPanel {
 		JButton btnBuscarCliente = new JButton("Buscar Cliente");
 		btnBuscarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				try {
 					String[] encabezado = { "NumTel", "Nombre", "Apellido", "Sexo", "Edad", "Dir" };
 					Object datos[][] = new Object[principal.lista.clientes.size()][];
@@ -163,7 +162,7 @@ public class MostrarClientes extends JPanel {
 					long NumTelx = Long.parseLong(txtNumTel.getText());
 					int pos = principal.lista.buscarPosCliente(NumTelx);
 
-					for (int i = pos; i < principal.lista.clientes.size(); i++) {
+					for (int i = pos; i < principal.lista.clientes.size(); i++) {// empieza desde el cliente buscado
 						datos[renglon] = new Object[6];
 						// Numero de telefono
 						datos[renglon][0] = principal.lista.clientes.get(i).getNumeroTel();
@@ -261,13 +260,16 @@ public class MostrarClientes extends JPanel {
 		JButton btnEleminarCliente = new JButton("Eleminar CLiente");
 		btnEleminarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO eleminar cliente con NumTely
-				try {
+				
+				try {//elimina el cliente seleccionado
 					principal.lista.eleminarClientes(NumTely);
 					JOptionPane.showMessageDialog(null, "Cliente borrado con Exito", "Exito",
 							JOptionPane.DEFAULT_OPTION);
 					ProbMedicos.setText(null);
+					
+					//Actualiza la tabla
 					actualizar();
+					//Guarda el documento
 					principal.save();
 
 				} catch (NullPointerException ex) {

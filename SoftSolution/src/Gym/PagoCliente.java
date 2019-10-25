@@ -6,8 +6,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class PagoCliente implements Serializable{
-	LocalDate pago;
-	int meses;
+	LocalDate pago;//Dia
+	int meses;//Mensualidad
+	LocalDate hoy=LocalDate.now();
 
 	public PagoCliente(LocalDate pago, int meses) {
 		super();
@@ -32,8 +33,9 @@ public class PagoCliente implements Serializable{
 	}
 
 	public int diasFaltantes() {
+		//Toma el tiempo en dias entre hoy y el dia final
 		LocalDate endDate = pago.plusMonths(meses);
-		return (int) ChronoUnit.DAYS.between(pago, endDate);
+		return (int) ChronoUnit.DAYS.between(hoy, endDate);
 		
 	}
 

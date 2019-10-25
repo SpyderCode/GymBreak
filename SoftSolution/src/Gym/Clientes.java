@@ -2,8 +2,6 @@ package Gym;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Clientes implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -13,8 +11,10 @@ public class Clientes implements Serializable {
 	private int edad;
 	private long numeroTel;
 	private String direccion;
+	
 	private ArrayList<String> detallesMedicos = new ArrayList<>();
 	private ArrayList<Entradas> entradas = new ArrayList<Entradas>();
+	
 	private PagoCliente pago;
 	private String formaPago;
 	
@@ -34,23 +34,6 @@ public class Clientes implements Serializable {
 		this.entradas = entradas;
 		this.pago = pago;
 	}
-
-	public ArrayList<Entradas> getEntradas() {
-		return entradas;
-	}
-
-	public void setEntradas(ArrayList<Entradas> entradas) {
-		this.entradas = entradas;
-	}
-
-	public PagoCliente getPago() {
-		return pago;
-	}
-
-	public void setPago(PagoCliente pago) {
-		this.pago = pago;
-	}
-
 	public Clientes(String nombre, String apellido, char sexo, int edad, long numeroTel, String direccion,
 			ArrayList<String> detallesMedicos, ArrayList<String> entradas) {
 		super();
@@ -73,6 +56,23 @@ public class Clientes implements Serializable {
 		this.numeroTel = numTelx;
 		this.direccion = direccionx;
 		this.detallesMedicos = detallesMedicosx;
+	}
+
+	//Getters y Setters
+	public ArrayList<Entradas> getEntradas() {
+		return entradas;
+	}
+
+	public void setEntradas(ArrayList<Entradas> entradas) {
+		this.entradas = entradas;
+	}
+
+	public PagoCliente getPago() {
+		return pago;
+	}
+
+	public void setPago(PagoCliente pago) {
+		this.pago = pago;
 	}
 
 	public String getNombre() {
@@ -129,6 +129,13 @@ public class Clientes implements Serializable {
 
 	public void setDetallesMedicos(ArrayList<String> detallesMedicos) {
 		this.detallesMedicos = detallesMedicos;
+	}
+	public String getFormaPago() {
+		return formaPago;
+	}
+
+	public void setFormaPago(String formaPago) {
+		this.formaPago = formaPago;
 	}
 	
 	//toStrings
@@ -193,15 +200,5 @@ public class Clientes implements Serializable {
 		System.out.println(x.toString());
 		entradas.add(x);
 	}
-
-	public String getFormaPago() {
-		return formaPago;
-	}
-
-	public void setFormaPago(String formaPago) {
-		this.formaPago = formaPago;
-	}
-
-
 
 }
