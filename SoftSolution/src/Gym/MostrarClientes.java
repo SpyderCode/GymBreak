@@ -257,8 +257,8 @@ public class MostrarClientes extends JPanel {
 		ProbMedicos.setBorder(border);
 		MainPanel.add(ProbMedicos);
 
-		JButton btnEleminarCliente = new JButton("Eleminar CLiente");
-		btnEleminarCliente.addActionListener(new ActionListener() {
+		JButton btnElIminarCliente = new JButton("Eliminar Cliente");
+		btnElIminarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {//elimina el cliente seleccionado
@@ -280,11 +280,11 @@ public class MostrarClientes extends JPanel {
 				}
 			}
 		});
-		btnEleminarCliente.setForeground(Color.BLACK);
-		btnEleminarCliente.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnEleminarCliente.setBackground(Color.WHITE);
-		btnEleminarCliente.setBounds(455, 78, 180, 33);
-		MainPanel.add(btnEleminarCliente);
+		btnElIminarCliente.setForeground(Color.BLACK);
+		btnElIminarCliente.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnElIminarCliente.setBackground(Color.WHITE);
+		btnElIminarCliente.setBounds(455, 78, 180, 33);
+		MainPanel.add(btnElIminarCliente);
 
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(MostrarClientes.class.getResource("/Logos/RedCircle.jpg")));

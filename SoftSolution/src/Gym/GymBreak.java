@@ -30,7 +30,7 @@ import java.awt.Toolkit;
 
 public class GymBreak {
 	JFrame frmGymBreak;
-	//Para los archivos
+	// Para los archivos
 	FileInputStream fis;
 	// inicializa la lista de clientes
 	ListaClientes lista = new ListaClientes();
@@ -41,7 +41,7 @@ public class GymBreak {
 	Pagos PagosJPanel;
 	JLabel lblTitulo;
 
-	//Enteros globales
+	// Enteros globales
 	int mouseX, mouseY;
 	int PanelWidth = 1453;
 	int PanelHeight = 805;
@@ -319,18 +319,18 @@ public class GymBreak {
 		ObjectOutputStream oos = null;
 
 		try {
-			//Obtiene el lugar del archivo
+			// Obtiene el lugar del archivo
 			fout = new FileOutputStream(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB\\");
 			oos = new ObjectOutputStream(fout);
 
-			//Escribe la lista del cliente al archivo
+			// Escribe la lista del cliente al archivo
 			for (Clientes c : lista.clientes) {
 				oos.writeObject(c);
 			}
-			//Cierra los OutPutStreams
+			// Cierra los OutPutStreams
 			oos.close();
 			fout.close();
-			//Si funciona da el mensaje de exito
+			// Si funciona da el mensaje de exito
 			JOptionPane.showMessageDialog(null, "Archivo Guardado con Exito", "Exito", JOptionPane.DEFAULT_OPTION);
 
 		} catch (FileNotFoundException e) {
@@ -347,16 +347,17 @@ public class GymBreak {
 
 	private void loadNormal() {
 		try {
-			fis = new FileInputStream(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB\\");//Busca el archivo
+			fis = new FileInputStream(System.getProperty("user.home") + "\\Documents" + "\\GymBreakDB\\");// Busca el
+																											// archivo
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			Clientes c;
-			//Lee cada cliente
+			// Lee cada cliente
 			while (true) {
 				c = (Clientes) ois.readObject();
 				lista.clientes.add(c);
 			}
 
-		} catch (EOFException ex) {//Cuando termina, cierra el InputStream
+		} catch (EOFException ex) {// Cuando termina, cierra el InputStream
 			try {
 				fis.close();
 				JOptionPane.showMessageDialog(null, "Datos Cargados con Exito");

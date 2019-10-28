@@ -35,7 +35,7 @@ public class PagoCliente implements Serializable{
 	public int diasFaltantes() {
 		//Toma el tiempo en dias entre hoy y el dia final
 		LocalDate endDate = pago.plusMonths(meses);
-		return (int) ChronoUnit.DAYS.between(hoy, endDate);
+		return (int) ChronoUnit.DAYS.between(LocalDate.now(), endDate);
 		
 	}
 
