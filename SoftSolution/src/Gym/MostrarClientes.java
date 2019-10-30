@@ -69,7 +69,7 @@ public class MostrarClientes extends JPanel {
 		tabledatosEntrada = new JTable();
 		tabledatosEntrada.setFont(new Font("Tahoma", Font.PLAIN, textSize));
 		scrollpaneEntradas.setBorder(border);
-		scrollpaneEntradas.setBounds(833, 370, 278, 165);
+		scrollpaneEntradas.setBounds(833, 162, 278, 165);
 		scrollpaneEntradas.getViewport().setBackground(Color.WHITE);
 		MainPanel.add(scrollpaneEntradas);
 
@@ -193,8 +193,10 @@ public class MostrarClientes extends JPanel {
 		MainPanel.add(btnBuscarCliente);
 
 		JLabel lblEntradas = new JLabel("Entradas");
+		lblEntradas.setBackground(Color.LIGHT_GRAY);
+		lblEntradas.setForeground(Color.BLACK);
 		lblEntradas.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblEntradas.setBounds(833, 343, 124, 28);
+		lblEntradas.setBounds(1031, 124, 80, 28);
 		MainPanel.add(lblEntradas);
 
 		// ScrollPaneClientes
@@ -235,7 +237,7 @@ public class MostrarClientes extends JPanel {
 		lblProbmedicos = new JLabel("ProbMedicos");
 		lblProbmedicos.setBackground(Color.WHITE);
 		lblProbmedicos.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblProbmedicos.setBounds(833, 124, 124, 28);
+		lblProbmedicos.setBounds(998, 336, 113, 28);
 		MainPanel.add(lblProbmedicos);
 
 		JButton btnActualizarTabla = new JButton("Actualizar Tabla");
@@ -253,7 +255,7 @@ public class MostrarClientes extends JPanel {
 
 		ProbMedicos = new JTextArea();
 		ProbMedicos.setFont(new Font("Tahoma", Font.PLAIN, textSize));
-		ProbMedicos.setBounds(833, 159, 278, 171);
+		ProbMedicos.setBounds(833, 364, 278, 171);
 		ProbMedicos.setBorder(border);
 		MainPanel.add(ProbMedicos);
 
