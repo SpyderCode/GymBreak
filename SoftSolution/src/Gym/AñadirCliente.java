@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class AñadirCliente extends JPanel {
 	public GymBreak principal;
@@ -29,7 +31,7 @@ public class AñadirCliente extends JPanel {
 	private JTextField txtEdad;
 	private JTextField txtDireccion;
 	private JTextArea txtProbMedicos;
-	int textSize=18;
+	int textSize = 18;
 
 	public AñadirCliente(GymBreak padre) {
 		principal = padre;
@@ -38,7 +40,7 @@ public class AñadirCliente extends JPanel {
 
 		JPanel MainPanel = new JPanel();
 		MainPanel.setBackground(Color.WHITE);
-		MainPanel.setBounds(0, 0,1137, 548);
+		MainPanel.setBounds(0, 0, 1137, 548);
 		add(MainPanel);
 		MainPanel.setLayout(null);
 
@@ -78,8 +80,24 @@ public class AñadirCliente extends JPanel {
 		MainPanel.add(lblProblemasMedicos);
 
 		txtNumTel = new JTextField();
-		txtNumTel.setFont(new Font("Tohoma",Font.PLAIN,textSize));
+		txtNumTel.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				String value = txtEdad.getText();
+				int l = value.length();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
+					txtNumTel.setEditable(true);
+				} else {
+					txtNumTel.setEditable(false);
+
+				}
+			}
+		});
+		txtNumTel.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtNumTel.setBounds(301, 228, 549, 35);
+		txtNumTel.setDocument(new JTextLimit(10));
+
 		MainPanel.add(txtNumTel);
 		txtNumTel.setColumns(10);
 
@@ -90,15 +108,30 @@ public class AñadirCliente extends JPanel {
 		MainPanel.add(txtNombre);
 
 		txtApellido = new JTextField();
-		txtApellido.setFont(new Font("Tohoma",Font.PLAIN,textSize));
+		txtApellido.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtApellido.setColumns(10);
 		txtApellido.setBounds(573, 31, 277, 35);
 		MainPanel.add(txtApellido);
 
 		txtEdad = new JTextField();
-		txtEdad.setFont(new Font("Tohoma",Font.PLAIN,textSize));
+		txtEdad.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				String value = txtEdad.getText();
+				int l = value.length();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
+					txtEdad.setEditable(true);
+				} else {
+					txtEdad.setEditable(false);
+				}
+
+			}
+		});
+		txtEdad.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtEdad.setColumns(10);
 		txtEdad.setBounds(113, 100, 176, 32);
+		txtEdad.setDocument(new JTextLimit(2));
 		MainPanel.add(txtEdad);
 
 		ButtonGroup sexo = new ButtonGroup();
@@ -117,13 +150,13 @@ public class AñadirCliente extends JPanel {
 		MainPanel.add(rdbtnFemenino);
 
 		txtDireccion = new JTextField();
-		txtDireccion.setFont(new Font("Tohoma",Font.PLAIN,textSize));
+		txtDireccion.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtDireccion.setColumns(10);
 		txtDireccion.setBounds(301, 169, 549, 35);
 		MainPanel.add(txtDireccion);
 
 		txtProbMedicos = new JTextArea();
-		txtProbMedicos.setFont(new Font("Tohoma",Font.PLAIN,textSize));
+		txtProbMedicos.setFont(new Font("Tohoma", Font.PLAIN, textSize));
 		txtProbMedicos.setLineWrap(true);
 		txtProbMedicos.setForeground(Color.BLACK);
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -136,8 +169,8 @@ public class AñadirCliente extends JPanel {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				//Borra las cajas
+
+				// Borra las cajas
 				borrarCajas();
 			}
 		});
@@ -152,7 +185,7 @@ public class AñadirCliente extends JPanel {
 					long NumTelx = Long.parseLong(txtNumTel.getText());
 					String nombrex = txtNombre.getText();
 					String Apellidox = txtApellido.getText();
-					char sexox = 'M';//Male by default
+					char sexox = 'M';// Male by default
 
 					// Sets si es masculino o femenino
 					if (rdbtnFemenino.isSelected())
@@ -180,15 +213,13 @@ public class AñadirCliente extends JPanel {
 					System.out.println("Cliente añadido a lista");
 					// Bora las cajas de texto
 					borrarCajas();
-			
+
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null,
 							"Error: No se permite letras en el numero de telefono\nni en la edad.", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null,
-							"Error: "+e, "ERROR",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -208,6 +239,6 @@ public class AñadirCliente extends JPanel {
 		txtNombre.setText(null);
 		txtNumTel.setText(null);
 		txtProbMedicos.setText(null);
-		
+
 	}
 }
