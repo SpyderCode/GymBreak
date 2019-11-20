@@ -20,6 +20,8 @@ public class Clientes implements Serializable {
 	
 	private String toStringMedicos = "";
 	private String toStringEntradas="";
+	
+	private String Ocupacion;
 
 	public Clientes(String nombre, String apellido, char sexo, int edad, long numeroTel, String direccion,
 			ArrayList<String> detallesMedicos, ArrayList<Entradas> entradas, PagoCliente pago) {
@@ -137,6 +139,12 @@ public class Clientes implements Serializable {
 	public void setFormaPago(String formaPago) {
 		this.formaPago = formaPago;
 	}
+	public String getOcupacion() {
+		return Ocupacion;
+	}
+	public void setOcupacion(String ocupacion) {
+		Ocupacion = ocupacion;
+	}
 	
 	//toStrings
 	public String toStringMedicos() {
@@ -199,6 +207,9 @@ public class Clientes implements Serializable {
 	public void altaEntrada(Entradas x) {
 		System.out.println(x.toString());
 		entradas.add(x);
+	}
+	public int getUltimaEntrada() {
+		return entradas.size()-1;
 	}
 
 }

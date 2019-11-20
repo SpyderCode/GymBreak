@@ -1,6 +1,7 @@
 package Gym;
 
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.JPanel;
 import java.awt.Label;
@@ -15,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -24,13 +26,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MostrarClientes extends JPanel {
 	public GymBreak principal;
-	private JTextField txtNumTel;
+	public JTextField txtNumTel;
 	private JTextArea ProbMedicos;
 	private JTable tabledatos;
 	private JTable tabledatosEntrada;
@@ -49,9 +54,23 @@ public class MostrarClientes extends JPanel {
 
 		JPanel MainPanel = new JPanel();
 		MainPanel.setBackground(Color.WHITE);
-		MainPanel.setBounds(0, 0, 1137, 548);
+		MainPanel.setBounds(0, 0, 1068, 488);
 		add(MainPanel);
 		MainPanel.setLayout(null);
+
+		JLabel Ocupaciontxt = new JLabel("");
+		Ocupaciontxt.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		Ocupaciontxt.setBorder(border);
+		Ocupaciontxt.setBounds(833, 173, 223, 28);
+		Ocupaciontxt.setBackground(Color.WHITE);
+		MainPanel.add(Ocupaciontxt);
+
+		JLabel OcupacionLabel = new JLabel("Ocupacion");
+		OcupacionLabel.setForeground(Color.BLACK);
+		OcupacionLabel.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		OcupacionLabel.setBackground(Color.LIGHT_GRAY);
+		OcupacionLabel.setBounds(955, 133, 101, 28);
+		MainPanel.add(OcupacionLabel);
 
 		JLabel label = new JLabel("Numero Telefonico");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 33));
@@ -59,23 +78,200 @@ public class MostrarClientes extends JPanel {
 		MainPanel.add(label);
 
 		txtNumTel = new JTextField();
+		txtNumTel.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				String value = txtNumTel.getText();
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
+					txtNumTel.setEditable(true);
+				} else {
+					txtNumTel.setEditable(false);
+
+				}
+			}
+		});
 		txtNumTel.setFont(new Font("Tahoma", Font.PLAIN, textSize));
 		txtNumTel.setBorder(border);
 		txtNumTel.setColumns(10);
 		txtNumTel.setBounds(310, 24, 378, 33);
+		txtNumTel.setDocument(new JTextLimit(10));
 		MainPanel.add(txtNumTel);
 
 		JScrollPane scrollpaneEntradas = new JScrollPane();
 		tabledatosEntrada = new JTable();
 		tabledatosEntrada.setFont(new Font("Tahoma", Font.PLAIN, textSize));
 		scrollpaneEntradas.setBorder(border);
-		scrollpaneEntradas.setBounds(833, 162, 278, 165);
+		scrollpaneEntradas.setBounds(833, 227, 223, 96);
 		scrollpaneEntradas.getViewport().setBackground(Color.WHITE);
 		MainPanel.add(scrollpaneEntradas);
 
+		JButton btnBuscarCliente = new JButton("Buscar Cliente");
+		btnBuscarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					String[] encabezado = { "NumTel", "Nombre", "Apellido", "Sexo", "Edad", "Dir" };
+					Object datos[][] = new Object[principal.lista.clientes.size()][];
+
+					int renglon = 0;
+					long NumTelx = Long.parseLong(txtNumTel.getText());
+					int pos = principal.lista.buscarPosCliente(NumTelx);
+
+					for (int i = pos; i < principal.lista.clientes.size(); i++) {// empieza desde el cliente buscado
+						datos[renglon] = new Object[6];
+						// Numero de telefono
+						datos[renglon][0] = principal.lista.clientes.get(i).getNumeroTel();
+						// Nombre
+						datos[renglon][1] = principal.lista.clientes.get(i).getNombre();
+						// Apellido(s)
+						datos[renglon][2] = principal.lista.clientes.get(i).getApellido();
+						// Sexo
+						datos[renglon][3] = principal.lista.clientes.get(i).getSexo();
+						// Edad
+						datos[renglon][4] = principal.lista.clientes.get(i).getEdad();
+						// Dirrecion
+						datos[renglon][5] = principal.lista.clientes.get(i).getDireccion();
+						renglon++;
+					}
+					DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
+					tabledatos.setModel(modelo);
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnBuscarCliente.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnBuscarCliente.setForeground(Color.BLACK);
+		btnBuscarCliente.setBackground(Color.WHITE);
+		btnBuscarCliente.setBounds(12, 78, 168, 33);
+		MainPanel.add(btnBuscarCliente);
+
+		JLabel lblEntradas = new JLabel("Entradas");
+		lblEntradas.setBackground(Color.LIGHT_GRAY);
+		lblEntradas.setForeground(Color.BLACK);
+		lblEntradas.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblEntradas.setBounds(976, 200, 80, 28);
+		MainPanel.add(lblEntradas);
+
+		JLabel lblDiasParaPagar = new JLabel("Dias para pagar");
+		lblDiasParaPagar.setForeground(Color.BLACK);
+		lblDiasParaPagar.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblDiasParaPagar.setBounds(899, 15, 157, 25);
+		MainPanel.add(lblDiasParaPagar);
+
+		lblDiasFaltantes = new JLabel("");
+		lblDiasFaltantes.setForeground(Color.BLACK);
+		lblDiasFaltantes.setBackground(Color.WHITE);
+		lblDiasFaltantes.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblDiasFaltantes.setBounds(899, 51, 135, 28);
+		lblDiasFaltantes.setBorder(border);
+		MainPanel.add(lblDiasFaltantes);
+
+		JLabel lblClientes = new JLabel("Clientes");
+		lblClientes.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblClientes.setBounds(12, 124, 124, 28);
+		MainPanel.add(lblClientes);
+
+		JLabel lblFechaDeUltimo = new JLabel("Ultimo Pago");
+		lblFechaDeUltimo.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblFechaDeUltimo.setBounds(753, 13, 157, 28);
+		MainPanel.add(lblFechaDeUltimo);
+
+		lblUltimoPago = new JLabel("");
+		lblUltimoPago.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblUltimoPago.setBounds(752, 51, 135, 28);
+		lblUltimoPago.setBorder(border);
+		MainPanel.add(lblUltimoPago);
+
+		lblProbmedicos = new JLabel("ProbMedicos");
+		lblProbmedicos.setBackground(Color.WHITE);
+		lblProbmedicos.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblProbmedicos.setBounds(943, 334, 113, 28);
+		MainPanel.add(lblProbmedicos);
+
+		JButton btnActualizarTabla = new JButton("Actualizar Tabla");
+		btnActualizarTabla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				actualizar();
+			}
+		});
+		btnActualizarTabla.setForeground(Color.BLACK);
+		btnActualizarTabla.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnActualizarTabla.setBackground(Color.WHITE);
+		btnActualizarTabla.setBounds(230, 78, 168, 33);
+		MainPanel.add(btnActualizarTabla);
+		lblProbmedicos.setOpaque(true);
+
+		ProbMedicos = new JTextArea();
+		ProbMedicos.setFont(new Font("Tahoma", Font.PLAIN, textSize));
+		ProbMedicos.setBounds(833, 364, 223, 111);
+		ProbMedicos.setBorder(border);
+		MainPanel.add(ProbMedicos);
+
+		JButton btnElIminarCliente = new JButton("Eliminar Cliente");
+		btnElIminarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {// elimina el cliente seleccionado
+					if (JOptionPane.showConfirmDialog(null, "¿Seguro que quiere borrar este cliente?", "ADVERTENCIA",
+							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						principal.lista.eleminarClientes(NumTely);
+						JOptionPane.showMessageDialog(null, "Cliente borrado con Exito", "Exito",
+								JOptionPane.DEFAULT_OPTION);
+						ProbMedicos.setText(null);
+
+						// Actualiza la tabla
+						actualizar();
+						// Guarda el documento
+						principal.save();
+					} else {
+						System.out.println("That was a close one");
+					}
+
+				} catch (NullPointerException ex) {
+					JOptionPane.showMessageDialog(null, "Error: Selecciona a una persona con el mouse", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnElIminarCliente.setForeground(Color.BLACK);
+		btnElIminarCliente.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		btnElIminarCliente.setBackground(Color.WHITE);
+		btnElIminarCliente.setBounds(753, 92, 180, 33);
+		MainPanel.add(btnElIminarCliente);
+
 		JScrollPane scrollPaneClientes = new JScrollPane();
 		scrollPaneClientes.setBorder(border);
-		tabledatos = new JTable();
+		tabledatos = new JTable() {
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+				Component c = super.prepareRenderer(renderer, row, column);
+
+				if (!isRowSelected(row)) {
+					if (tabledatos.getColumnCount() >= 0) {
+						long numTelz = (long) getModel().getValueAt(row, 0);
+						int posz = principal.lista.buscarPosCliente(numTelz);
+						int posUltEnt = principal.lista.clientes.get(posz).getUltimaEntrada();
+						if (posUltEnt == -1) {
+						} else {
+							LocalDate UltimaEntrada = LocalDate
+									.parse(principal.lista.clientes.get(posz).getEntradas().get(posUltEnt).getFecha());
+							LocalDate LastMonth = LocalDate.now().minusMonths(1);
+							if (UltimaEntrada.isBefore(LastMonth)) {
+								c.setBackground(Color.RED);
+							} else {
+								c.setBackground(Color.WHITE);
+							}
+						}
+					}
+				}
+
+				return c;
+			}
+		};
 		tabledatos.setFont(new Font("Tahoma", Font.PLAIN, textSize));
 		tabledatos.addMouseListener(new MouseAdapter() {
 			@Override
@@ -137,11 +333,17 @@ public class MostrarClientes extends JPanel {
 							lblUltimoPago.setText("" + pago().getPago());// Ultimo Pago
 						}
 
+						// Ocupacion
+						Ocupaciontxt.setText("" + Ocupacion());
 					}
 				} catch (HeadlessException e1) {
 					JOptionPane.showMessageDialog(null, "Error: " + e1, "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 
+			}
+
+			private Object Ocupacion() {
+				return principal.lista.clientes.get(posx).getOcupacion();
 			}
 
 			private PagoCliente pago() {
@@ -150,147 +352,14 @@ public class MostrarClientes extends JPanel {
 		});
 		scrollPaneClientes.setViewportView(tabledatos);
 
-		JButton btnBuscarCliente = new JButton("Buscar Cliente");
-		btnBuscarCliente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				try {
-					String[] encabezado = { "NumTel", "Nombre", "Apellido", "Sexo", "Edad", "Dir" };
-					Object datos[][] = new Object[principal.lista.clientes.size()][];
-
-					int renglon = 0;
-					long NumTelx = Long.parseLong(txtNumTel.getText());
-					int pos = principal.lista.buscarPosCliente(NumTelx);
-
-					for (int i = pos; i < principal.lista.clientes.size(); i++) {// empieza desde el cliente buscado
-						datos[renglon] = new Object[6];
-						// Numero de telefono
-						datos[renglon][0] = principal.lista.clientes.get(i).getNumeroTel();
-						// Nombre
-						datos[renglon][1] = principal.lista.clientes.get(i).getNombre();
-						// Apellido(s)
-						datos[renglon][2] = principal.lista.clientes.get(i).getApellido();
-						// Sexo
-						datos[renglon][3] = principal.lista.clientes.get(i).getSexo();
-						// Edad
-						datos[renglon][4] = principal.lista.clientes.get(i).getEdad();
-						// Dirrecion
-						datos[renglon][5] = principal.lista.clientes.get(i).getDireccion();
-						renglon++;
-					}
-					DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
-					tabledatos.setModel(modelo);
-
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		btnBuscarCliente.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnBuscarCliente.setForeground(Color.BLACK);
-		btnBuscarCliente.setBackground(Color.WHITE);
-		btnBuscarCliente.setBounds(12, 78, 168, 33);
-		MainPanel.add(btnBuscarCliente);
-
-		JLabel lblEntradas = new JLabel("Entradas");
-		lblEntradas.setBackground(Color.LIGHT_GRAY);
-		lblEntradas.setForeground(Color.BLACK);
-		lblEntradas.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblEntradas.setBounds(1031, 124, 80, 28);
-		MainPanel.add(lblEntradas);
-
 		// ScrollPaneClientes
-		scrollPaneClientes.setBounds(12, 159, 785, 376);
+		scrollPaneClientes.setBounds(12, 159, 781, 316);
 		scrollPaneClientes.getViewport().setBackground(Color.WHITE);
 		MainPanel.add(scrollPaneClientes);
 
-		JLabel lblDiasParaPagar = new JLabel("Dias para pagar");
-		lblDiasParaPagar.setForeground(Color.BLACK);
-		lblDiasParaPagar.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblDiasParaPagar.setBounds(954, 15, 157, 25);
-		MainPanel.add(lblDiasParaPagar);
-
-		lblDiasFaltantes = new JLabel("");
-		lblDiasFaltantes.setForeground(Color.BLACK);
-		lblDiasFaltantes.setBackground(Color.WHITE);
-		lblDiasFaltantes.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblDiasFaltantes.setBounds(954, 51, 135, 28);
-		lblDiasFaltantes.setBorder(border);
-		MainPanel.add(lblDiasFaltantes);
-
-		JLabel lblClientes = new JLabel("Clientes");
-		lblClientes.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblClientes.setBounds(12, 124, 124, 28);
-		MainPanel.add(lblClientes);
-
-		JLabel lblFechaDeUltimo = new JLabel("Ultimo Pago");
-		lblFechaDeUltimo.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblFechaDeUltimo.setBounds(808, 13, 157, 28);
-		MainPanel.add(lblFechaDeUltimo);
-
-		lblUltimoPago = new JLabel("");
-		lblUltimoPago.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblUltimoPago.setBounds(807, 51, 135, 28);
-		lblUltimoPago.setBorder(border);
-		MainPanel.add(lblUltimoPago);
-
-		lblProbmedicos = new JLabel("ProbMedicos");
-		lblProbmedicos.setBackground(Color.WHITE);
-		lblProbmedicos.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lblProbmedicos.setBounds(998, 336, 113, 28);
-		MainPanel.add(lblProbmedicos);
-
-		JButton btnActualizarTabla = new JButton("Actualizar Tabla");
-		btnActualizarTabla.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				actualizar();
-			}
-		});
-		btnActualizarTabla.setForeground(Color.BLACK);
-		btnActualizarTabla.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnActualizarTabla.setBackground(Color.WHITE);
-		btnActualizarTabla.setBounds(230, 78, 168, 33);
-		MainPanel.add(btnActualizarTabla);
-		lblProbmedicos.setOpaque(true);
-
-		ProbMedicos = new JTextArea();
-		ProbMedicos.setFont(new Font("Tahoma", Font.PLAIN, textSize));
-		ProbMedicos.setBounds(833, 364, 278, 171);
-		ProbMedicos.setBorder(border);
-		MainPanel.add(ProbMedicos);
-
-		JButton btnElIminarCliente = new JButton("Eliminar Cliente");
-		btnElIminarCliente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				try {//elimina el cliente seleccionado
-					principal.lista.eleminarClientes(NumTely);
-					JOptionPane.showMessageDialog(null, "Cliente borrado con Exito", "Exito",
-							JOptionPane.DEFAULT_OPTION);
-					ProbMedicos.setText(null);
-					
-					//Actualiza la tabla
-					actualizar();
-					//Guarda el documento
-					principal.save();
-
-				} catch (NullPointerException ex) {
-					JOptionPane.showMessageDialog(null, "Error: Selecciona a una persona con el mouse", "ERROR",
-							JOptionPane.ERROR_MESSAGE);
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		btnElIminarCliente.setForeground(Color.BLACK);
-		btnElIminarCliente.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		btnElIminarCliente.setBackground(Color.WHITE);
-		btnElIminarCliente.setBounds(455, 78, 180, 33);
-		MainPanel.add(btnElIminarCliente);
-
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(new ImageIcon(MostrarClientes.class.getResource("/Logos/RedCircle.jpg")));
-		lblBackground.setBounds(120, 0, 931, 933);
+		lblBackground.setBounds(12, 0, 931, 933);
 		MainPanel.add(lblBackground);
 		actualizar();
 	}
@@ -321,8 +390,10 @@ public class MostrarClientes extends JPanel {
 
 			DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
 			tabledatos.setModel(modelo);
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 }

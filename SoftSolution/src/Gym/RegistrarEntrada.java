@@ -24,11 +24,13 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class RegistrarEntrada extends JPanel {
 
 	public GymBreak principal;
-	private JTextField txtNumTel;
+	public JTextField txtNumTel;
 
 	LocalDate Hoy;
 	LocalTime Hora;
@@ -44,7 +46,7 @@ public class RegistrarEntrada extends JPanel {
 
 		JPanel MainPanel = new JPanel();
 		MainPanel.setBackground(Color.WHITE);
-		MainPanel.setBounds(0, 0, 1137, 548);
+		MainPanel.setBounds(0, 0, 1068, 488);
 		add(MainPanel);
 		MainPanel.setLayout(null);
 
@@ -54,9 +56,22 @@ public class RegistrarEntrada extends JPanel {
 		MainPanel.add(lblNumeroTelefonico);
 
 		txtNumTel = new JTextField();
+		txtNumTel.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
+					txtNumTel.setEditable(true);
+				} else {
+					txtNumTel.setEditable(false);
+
+				}
+			}
+		});
 		txtNumTel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtNumTel.setBounds(259, 19, 404, 33);
 		MainPanel.add(txtNumTel);
+		txtNumTel.setDocument(new JTextLimit(10));
 		txtNumTel.setColumns(10);
 
 		JPanel DatosPanel = new JPanel();
@@ -66,16 +81,22 @@ public class RegistrarEntrada extends JPanel {
 		DatosPanel.setBounds(12, 101, 527, 434);
 		DatosPanel.setLayout(null);
 		MainPanel.add(DatosPanel);
+		
+		JLabel OcupacionLabel = new JLabel("Ocupacion");
+		OcupacionLabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
+		OcupacionLabel.setBounds(12, 78, 172, 38);
+		DatosPanel.add(OcupacionLabel);
+		
+		JLabel txtOcupacion = new JLabel("");
+		txtOcupacion.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtOcupacion.setBorder(border);
+		txtOcupacion.setBounds(196, 78, 277, 38);
+		DatosPanel.add(txtOcupacion);
 
 		JLabel Nombrelbl = new JLabel("Nombre");
 		Nombrelbl.setFont(new Font("Tahoma", Font.PLAIN, 33));
 		Nombrelbl.setBounds(12, 24, 133, 38);
 		DatosPanel.add(Nombrelbl);
-
-		JLabel Apellidolbl = new JLabel("Apellido(s)");
-		Apellidolbl.setFont(new Font("Tahoma", Font.PLAIN, 33));
-		Apellidolbl.setBounds(12, 75, 184, 41);
-		DatosPanel.add(Apellidolbl);
 
 		JLabel Edadlbl = new JLabel("Edad");
 		Edadlbl.setFont(new Font("Tahoma", Font.PLAIN, 33));
@@ -90,7 +111,7 @@ public class RegistrarEntrada extends JPanel {
 		JTextArea ProbMedicotxt = new JTextArea();
 		ProbMedicotxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		ProbMedicotxt.setBorder(border);
-		ProbMedicotxt.setBounds(12, 232, 461, 189);
+		ProbMedicotxt.setBounds(12, 232, 461, 143);
 		DatosPanel.add(ProbMedicotxt);
 
 		JLabel ProbMedicolbl = new JLabel("Problemas medicos");
@@ -103,12 +124,6 @@ public class RegistrarEntrada extends JPanel {
 		Nombretxt.setBorder(border);
 		Nombretxt.setBounds(196, 24, 277, 38);
 		DatosPanel.add(Nombretxt);
-
-		JLabel Apellidotxt = new JLabel("");
-		Apellidotxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		Apellidotxt.setBorder(border);
-		Apellidotxt.setBounds(196, 78, 277, 38);
-		DatosPanel.add(Apellidotxt);
 
 		JLabel Edadtxt = new JLabel("");
 		Edadtxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -129,7 +144,7 @@ public class RegistrarEntrada extends JPanel {
 
 		JTextField Fechatxt = new JTextField();
 		Fechatxt.setFont(new Font("Tahoma", Font.PLAIN, textSize));
-		Fechatxt.setBounds(742, 108, 315, 38);
+		Fechatxt.setBounds(742, 108, 241, 38);
 		Fechatxt.setBorder(border);
 		Fechatxt.setText("" + LocalDate.now());
 		MainPanel.add(Fechatxt);
@@ -142,7 +157,7 @@ public class RegistrarEntrada extends JPanel {
 		JTextField Horatxt = new JTextField();
 		Horatxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		Horatxt.setBorder(border);
-		Horatxt.setBounds(742, 167, 315, 38);
+		Horatxt.setBounds(742, 167, 241, 38);
 		Horatxt.setText("" + LocalTime.now());
 		MainPanel.add(Horatxt);
 
@@ -154,7 +169,7 @@ public class RegistrarEntrada extends JPanel {
 		JLabel DiasFalttxt = new JLabel("");
 		DiasFalttxt.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		DiasFalttxt.setBorder(border);
-		DiasFalttxt.setBounds(855, 259, 202, 38);
+		DiasFalttxt.setBounds(855, 259, 128, 38);
 		MainPanel.add(DiasFalttxt);
 
 		JButton btnBuscar = new JButton("Buscar");
@@ -174,11 +189,12 @@ public class RegistrarEntrada extends JPanel {
 					}
 
 					// Sets datos en la caja de datos
-					Nombretxt.setText(getCliente(posx).getNombre());
-					Apellidotxt.setText(getCliente(posx).getApellido());
+					Nombretxt.setText(getCliente(posx).getNombre()+" "+getCliente(posx).getApellido());
+					txtOcupacion.setText(""+getCliente(posx).getOcupacion());
 					Edadtxt.setText("" + getCliente(posx).getEdad());
 					Sexotxt.setText("" + getCliente(posx).getSexo());
 					ProbMedicotxt.setText(detallesMedicosx);
+					Horatxt.setText(""+LocalTime.now());
 
 					// if else para no obtener errores
 					if (getCliente(posx).getPago() == null) {// Si no tiene pagos, no pasa nada
@@ -204,7 +220,7 @@ public class RegistrarEntrada extends JPanel {
 		btnBuscar.setBounds(12, 55, 123, 33);
 		MainPanel.add(btnBuscar);
 
-		JButton EntradaBtn = new JButton("Dar de Alta");
+		JButton EntradaBtn = new JButton("Dar Entrada");
 		EntradaBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -237,7 +253,7 @@ public class RegistrarEntrada extends JPanel {
 
 			private void cleartext() {// Borra las cajas
 				txtNumTel.setText(null);
-				Apellidotxt.setText(null);
+				txtOcupacion.setText(null);
 				DiasFalttxt.setText(null);
 				Edadtxt.setText(null);
 				Nombretxt.setText(null);
@@ -246,7 +262,7 @@ public class RegistrarEntrada extends JPanel {
 
 			}
 		});
-		EntradaBtn.setBounds(973, 496, 152, 39);
+		EntradaBtn.setBounds(905, 449, 152, 39);
 		MainPanel.add(EntradaBtn);
 
 		JLabel BackGround = new JLabel("");
