@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings("serial")
 public class AñadirCliente extends JPanel {
 	public GymBreak principal;
 	public JTextField txtNumTel;
@@ -83,8 +84,6 @@ public class AñadirCliente extends JPanel {
 		txtNumTel.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
-				String value = txtEdad.getText();
-				int l = value.length();
 				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
 					txtNumTel.setEditable(true);
@@ -141,8 +140,6 @@ public class AñadirCliente extends JPanel {
 		txtEdad.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
-				String value = txtEdad.getText();
-				int l = value.length();
 				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
 					txtEdad.setEditable(true);

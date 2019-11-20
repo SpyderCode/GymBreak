@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class Opciones extends JPanel{
 	public Opciones() {
 		setBackground(Color.WHITE);

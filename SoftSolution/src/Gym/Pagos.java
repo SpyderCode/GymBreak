@@ -1,20 +1,9 @@
 package Gym;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.util.Locale;
-import java.util.Properties;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
@@ -22,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
-import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -31,6 +19,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings("serial")
 public class Pagos extends JPanel {
 	public JTextField NumTeltxt;
 	private JTextField Tipotxt;

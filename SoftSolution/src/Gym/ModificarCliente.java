@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 
+@SuppressWarnings("serial")
 public class ModificarCliente extends JPanel {
 	public ModificarCliente(GymBreak g) {
 		setBackground(Color.WHITE);

@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+@SuppressWarnings("serial")
 public class JTextLimit extends PlainDocument {
 	private int limit;
 

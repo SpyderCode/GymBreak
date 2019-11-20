@@ -19,8 +19,6 @@ public class Clientes implements Serializable {
 	private String formaPago;
 	
 	private String toStringMedicos = "";
-	private String toStringEntradas="";
-	
 	private String Ocupacion;
 
 	public Clientes(String nombre, String apellido, char sexo, int edad, long numeroTel, String direccion,
@@ -160,17 +158,6 @@ public class Clientes implements Serializable {
 		} else {
 			return pagox.toString();
 		}
-	}
-
-	private String toStringEntradas(ArrayList<Entradas> entradasx) {
-		if (entradasx == null) {
-			return "_";
-		} else {
-			for	(Entradas entradas : entradasx) {
-				toStringEntradas +=entradas;
-			}
-		}
-		return toStringEntradas;
 	}
 
 	@Override

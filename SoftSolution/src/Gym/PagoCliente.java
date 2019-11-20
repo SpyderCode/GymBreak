@@ -1,10 +1,10 @@
 package Gym;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+@SuppressWarnings("serial")
 public class PagoCliente implements Serializable{
 	LocalDate pago;//Dia
 	int meses;//Mensualidad

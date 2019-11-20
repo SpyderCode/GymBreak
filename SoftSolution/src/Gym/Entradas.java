@@ -3,6 +3,7 @@ package Gym;
 import java.io.Serializable;
 import java.time.LocalTime;
 
+@SuppressWarnings("serial")
 public class Entradas implements Serializable{
 	//Atributos
 	private String Fecha;

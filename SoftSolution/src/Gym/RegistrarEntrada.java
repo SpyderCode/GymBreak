@@ -1,7 +1,6 @@
 package Gym;
 
 import java.awt.Color;
-
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,22 +10,19 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-
 import java.awt.Font;
 import java.awt.HeadlessException;
-
 import javax.swing.JButton;
-import com.toedter.calendar.JMonthChooser;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings("serial")
 public class RegistrarEntrada extends JPanel {
 
 	public GymBreak principal;

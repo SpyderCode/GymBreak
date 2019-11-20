@@ -2,23 +2,18 @@ package Gym;
 
 import java.awt.Color;
 import java.awt.Component;
-
 import javax.swing.JPanel;
-import java.awt.Label;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.HeadlessException;
-
 import javax.swing.JTextField;
-import javax.swing.JViewport;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
@@ -28,11 +23,11 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings("serial")
 public class MostrarClientes extends JPanel {
 	public GymBreak principal;
 	public JTextField txtNumTel;
@@ -81,7 +76,6 @@ public class MostrarClientes extends JPanel {
 		txtNumTel.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
-				String value = txtNumTel.getText();
 				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
 					txtNumTel.setEditable(true);
@@ -250,18 +244,33 @@ public class MostrarClientes extends JPanel {
 			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
 				Component c = super.prepareRenderer(renderer, row, column);
 
-				if (!isRowSelected(row)) {
+				if (!isRowSelected(row)) {// no se como funciona este if, pero funciona
+					// verifica que el table tenga mas o igual a 0 datos
 					if (tabledatos.getColumnCount() >= 0) {
-						long numTelz = (long) getModel().getValueAt(row, 0);
-						int posz = principal.lista.buscarPosCliente(numTelz);
-						int posUltEnt = principal.lista.clientes.get(posz).getUltimaEntrada();
+
+						long numTelz = (long) getModel().getValueAt(row,
+								0);/* Obtiene el numero telefonico del cliente en el renglon */
+						int posz = principal.lista.buscarPosCliente(
+								numTelz);/* Obtiene la posicion de ese cliente en la lista de clientes */
+						int posUltEnt = principal.lista.clientes.get(posz)
+								.getUltimaEntrada();/* Obtiene la posicion de la ultima entrada de el cliente */
+
+						// Si no tiene entradas, no hace nada
 						if (posUltEnt == -1) {
 						} else {
+
+							// Obtiene la fecha de la ultima entrada
 							LocalDate UltimaEntrada = LocalDate
 									.parse(principal.lista.clientes.get(posz).getEntradas().get(posUltEnt).getFecha());
+
+							// Obtiene el mes anterior en base del dia actual
 							LocalDate LastMonth = LocalDate.now().minusMonths(1);
+
+							// Si la ultima entrada es antes del mes anterior, cambia el row a cierto color
 							if (UltimaEntrada.isBefore(LastMonth)) {
 								c.setBackground(Color.RED);
+
+								// Si no, lo deja en blanc
 							} else {
 								c.setBackground(Color.WHITE);
 							}
