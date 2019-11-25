@@ -240,47 +240,7 @@ public class MostrarClientes extends JPanel {
 
 		JScrollPane scrollPaneClientes = new JScrollPane();
 		scrollPaneClientes.setBorder(border);
-		tabledatos = new JTable() {
-			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-				Component c = super.prepareRenderer(renderer, row, column);
-
-				if (!isRowSelected(row)) {// no se como funciona este if, pero funciona
-					// verifica que el table tenga mas o igual a 0 datos
-					if (tabledatos.getColumnCount() >= 0) {
-
-						long numTelz = (long) getModel().getValueAt(row,
-								0);/* Obtiene el numero telefonico del cliente en el renglon */
-						int posz = principal.lista.buscarPosCliente(
-								numTelz);/* Obtiene la posicion de ese cliente en la lista de clientes */
-						int posUltEnt = principal.lista.clientes.get(posz)
-								.getUltimaEntrada();/* Obtiene la posicion de la ultima entrada de el cliente */
-
-						// Si no tiene entradas, no hace nada
-						if (posUltEnt == -1) {
-						} else {
-
-							// Obtiene la fecha de la ultima entrada
-							LocalDate UltimaEntrada = LocalDate
-									.parse(principal.lista.clientes.get(posz).getEntradas().get(posUltEnt).getFecha());
-
-							// Obtiene el mes anterior en base del dia actual
-							LocalDate LastMonth = LocalDate.now().minusMonths(1);
-
-							// Si la ultima entrada es antes del mes anterior, cambia el row a cierto color
-							if (UltimaEntrada.isBefore(LastMonth)) {
-								c.setBackground(Color.RED);
-
-								// Si no, lo deja en blanc
-							} else {
-								c.setBackground(Color.WHITE);
-							}
-						}
-					}
-				}
-
-				return c;
-			}
-		};
+		tabledatos = new JTable();
 		tabledatos.setFont(new Font("Tahoma", Font.PLAIN, textSize));
 		tabledatos.addMouseListener(new MouseAdapter() {
 			@Override
@@ -362,7 +322,7 @@ public class MostrarClientes extends JPanel {
 		scrollPaneClientes.setViewportView(tabledatos);
 
 		// ScrollPaneClientes
-		scrollPaneClientes.setBounds(12, 159, 781, 316);
+		scrollPaneClientes.setBounds(12, 154, 781, 321);
 		scrollPaneClientes.getViewport().setBackground(Color.WHITE);
 		MainPanel.add(scrollPaneClientes);
 

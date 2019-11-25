@@ -113,11 +113,11 @@ public class GymBreak {
 		SideMenu.setLayout(null);
 
 		// El boton para añadir clientes
-		JButton btnAñadir = new JButton("A\u00F1adir Cliente");
+		JButton btnAñadir = new JButton("Registrar Cliente");
 		btnAñadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				aplicarVentana(AñadirClienteJPanel, "Añadir Cliente");
+				aplicarVentana(AñadirClienteJPanel, "Registrar Cliente");
 				AñadirClienteJPanel.txtEdad.setEditable(true);
 				AñadirClienteJPanel.txtNumTel.setEditable(true);
 
