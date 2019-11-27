@@ -131,9 +131,9 @@ public class MostrarClientes extends JPanel {
 					DefaultTableModel modelo = new DefaultTableModel(datos, encabezado);
 					tabledatos.setModel(modelo);
 
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Error: " + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
+				} catch (NumberFormatException e3) {
+					JOptionPane.showMessageDialog(null, "Error: Porfavor ingrese el numero telefonico", "ERROR", JOptionPane.ERROR_MESSAGE);
+				} 
 			}
 		});
 		btnBuscarCliente.setFont(new Font("Tahoma", Font.PLAIN, 19));

@@ -170,7 +170,11 @@ public class Pagos extends JPanel {
 
 					// Clears text
 					cleartxt();
-				} catch (NumberFormatException | IOException e1) {
+				} catch (NumberFormatException e2) {
+					JOptionPane.showMessageDialog(null,
+							"Error: No se ha ingresado las mensualidades", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+				}catch (IOException e1) {
 					JOptionPane.showMessageDialog(null, "Error: " + e1, "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 
@@ -207,7 +211,7 @@ public class Pagos extends JPanel {
 					Apellidotxt.setText("" + getCliente(posx).getApellido());
 
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Error: Porfavor ingrese el numero telefonico", "ERROR", JOptionPane.ERROR_MESSAGE);
 				} catch (ArrayIndexOutOfBoundsException e) {
 					JOptionPane.showMessageDialog(null, "Cliente no existe o el numero telefonico esta mal escrito",
 							"ERROR", JOptionPane.ERROR_MESSAGE);

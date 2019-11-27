@@ -199,8 +199,8 @@ public class RegistrarEntrada extends JPanel {
 						DiasFalttxt.setText("" + getCliente(posx).getPago().diasFaltantes());
 					}
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
-				} catch (ArrayIndexOutOfBoundsException e) {
+					JOptionPane.showMessageDialog(null, "Error: Porfavor ingrese el numero telefonico", "ERROR", JOptionPane.ERROR_MESSAGE);
+				} catch (ArrayIndexOutOfBoundsException e2) {
 					JOptionPane.showMessageDialog(null, "Cliente no existe o el numero telefonico esta mal escrito",
 							"ERROR", JOptionPane.ERROR_MESSAGE);
 				}
@@ -238,7 +238,7 @@ public class RegistrarEntrada extends JPanel {
 					principal.save();// Guarda todo
 					cleartext();// Borra las cajas
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Error: Porfavor ingrese el numero telefonico", "ERROR", JOptionPane.ERROR_MESSAGE);
 				} catch (HeadlessException e) {
 					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
 				} catch (IOException e) {

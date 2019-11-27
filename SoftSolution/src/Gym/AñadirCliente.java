@@ -246,7 +246,7 @@ public class AñadirCliente extends JPanel {
 
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null,
-							"Error: No se permite letras en el numero de telefono\nni en la edad.", "ERROR",
+							"Error: Datos Incompletos en los campos", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Error: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
